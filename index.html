@@ -1,3 +1,6 @@
+
+
+
 <!doctype html>
 <html lang="id" class="h-full">
  <head>
@@ -1472,8 +1475,8 @@
        2. CSV_SISWA_URL   : data siswa
        Cara: File > Bagikan > Publikasikan ke web > pilih sheet > format CSV.
        ======================================================================= */
-    const CSV_PROFIL_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTj9NDKstrj0d9JH7PSMGc4X9ZP1JEarvqoXhF2BZcesqs52oW_jYNKd_fI832uYg/pubhtml?gid=114741463&single=true';
-    const CSV_SISWA_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTj9NDKstrj0d9JH7PSMGc4X9ZP1JEarvqoXhF2BZcesqs52oW_jYNKd_fI832uYg/pubhtml?gid=1632329455&single=true;
+    const CSV_PROFIL_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTj9NDKstrj0d9JH7PSMGc4X9ZP1JEarvqoXhF2BZcesqs52oW_jYNKd_fI832uYg/pub?gid=114741463&single=true&output=csv';
+    const CSV_SISWA_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTj9NDKstrj0d9JH7PSMGc4X9ZP1JEarvqoXhF2BZcesqs52oW_jYNKd_fI832uYg/pub?gid=1632329455&single=true&output=csv';
     /* ==================  BATAS PENGATURAN DATABASE  ======================= */
 
     /* ============ LOADING AWAL (PERSENTASE) ============ */
@@ -1505,11 +1508,7 @@
     function bootFail() {
       clearInterval(_bootTimer);
       const m = document.getElementById('bootMsg');
-      if (m) m.innerHTML = 'Gagal memuat database.<br>Periksa koneksi internet lalu muat ulang halaman.';
-      setTimeout(() => {
-        const el = document.getElementById('bootLoader');
-        if (el) { el.classList.add('hide'); setTimeout(() => el.remove(), 600); }
-      }, 2600);
+      if (m) m.innerHTML = 'Gagal memuat database.<br>Periksa koneksi internet, lalu coba lagi.<br><button onclick="location.reload()" style="margin-top:12px;padding:8px 18px;border:0;border-radius:999px;background:#0f766e;color:#fff;font-weight:600;cursor:pointer">Coba Lagi</button>';
     }
 
     // State
@@ -1634,10 +1633,31 @@
       return p.length ? p[p.length > 2 ? p.length - 3 : 0] : PROFIL_DEFAULT.kota;
     }
 
+    async function fetchCSVText(url, label) {
+      let lastErr;
+      for (let i = 0; i < 3; i++) {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 20000);
+        try {
+          const u = url + (url.includes('?') ? '&' : '?') + '_=' + Date.now();
+          const res = await fetch(u, { signal: ctrl.signal, cache: 'no-store', redirect: 'follow' });
+          clearTimeout(t);
+          if (!res.ok) throw new Error(label + ' HTTP ' + res.status);
+          const txt = await res.text();
+          if (!txt || !txt.trim()) throw new Error(label + ' kosong');
+          return txt;
+        } catch (e) {
+          clearTimeout(t);
+          lastErr = e;
+          if (i < 2) await new Promise(r => setTimeout(r, 1200 * (i + 1)));
+        }
+      }
+      throw lastErr;
+    }
+
     async function loadProfil() {
       try {
-        const res = await fetch(CSV_PROFIL_URL);
-        const rows = parseCSV(await res.text());
+        const rows = parseCSV(await fetchCSVText(CSV_PROFIL_URL, 'Profil'));
         if (!rows.length) return;
         const h = Object.keys(rows[0]);
         const kKey = h.find(x => /data\s*profil|profil|nama\s*data/i.test(x)) || h[1];
@@ -1679,9 +1699,8 @@
     async function loadData() {
       try {
         bootSet(8, 'Menghubungkan ke database…');
-        const response = await fetch(CSV_SISWA_URL);
+        const text = await fetchCSVText(CSV_SISWA_URL, 'Data siswa');
         bootSet(38, 'Mengunduh data siswa…');
-        const text = await response.text();
         bootSet(55, 'Menyusun data siswa…');
         studentsData = parseCSV(text);
 
@@ -4006,8 +4025,8 @@
       const f = re => h.find(x => re.test(x)) || '';
       return {
         tahfizh: { kelas: f(/rombel\s*tahfizh/i), wali: f(/wali\s*kelas\s*tahfizh/i), label: 'Kelas Tahfizh' },
-        smp: { kelas: f(/^kelas\s*smp/i), wali: f(/wali\s*kelas\s*smp/i), label: 'Kelas SMP / SD' },
-        rombelsmp: { kelas: f(/rombel\s*smp/i), wali: f(/wali\s*kelas\s*smp/i), label: 'Rombel SMP / SD' }
+        smp: { kelas: f(/^kelas\s*(smp|sd|mts|mi|ma|sma)\b/i), wali: f(/wali\s*kelas\s*(smp|sd|mts|mi|ma|sma)\b/i), label: 'Kelas SMP / SD' },
+        rombelsmp: { kelas: f(/rombel\s*(smp|sd|mts|mi|ma|sma)\b/i), wali: f(/wali\s*kelas\s*(smp|sd|mts|mi|ma|sma)\b/i), label: 'Rombel SMP / SD' }
       };
     }
 
@@ -4146,9 +4165,9 @@
       return {
         rombelTahfizh: f(/rombel\s*tahfizh/i),
         waliTahfizh: f(/wali\s*kelas\s*tahfizh/i),
-        kelasSmp: f(/^kelas\s*smp/i),
-        rombelSmp: f(/rombel\s*smp/i),
-        waliSmp: f(/wali\s*kelas\s*smp/i),
+        kelasSmp: f(/^kelas\s*(smp|sd|mts|mi|ma|sma)\b/i),
+        rombelSmp: f(/rombel\s*(smp|sd|mts|mi|ma|sma)\b/i),
+        waliSmp: f(/wali\s*kelas\s*(smp|sd|mts|mi|ma|sma)\b/i),
         hpAyah: f(/nomor\s*hp\s*ayah/i),
         hpIbu: f(/nomor\s*hp\s*ibu/i),
         hpFam: f(/nomor\s*hp\s*family/i),
