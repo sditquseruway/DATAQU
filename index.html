@@ -1,3 +1,6 @@
+
+
+
 <!doctype html>
 <html lang="id" class="h-full">
  <head>
@@ -8,7 +11,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="DATAQu">
   <link rel="apple-touch-icon" href="/icon-192.png">
-  <title>DATAQu — SD International Tahfizh Quran Seruway</title>
+  <title>DATAQu — Aplikasi Administrasi Sekolah</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
@@ -854,6 +857,8 @@
       background: #f7faf8; border: 1px solid #e6ece8; border-radius: 16px; padding: 14px;
       text-align: left; cursor: pointer; font-family: inherit; transition: all .2s;
     }
+    .rb-wali { display:flex; align-items:center; gap:5px; font-size:11.5px; color:#15803d; margin-top:3px; line-height:1.25; }
+    .rb-wali svg { flex-shrink:0; }
     .rb-chip:hover { border-color: #16a34a; background: #f0fdf4; transform: translateY(-2px); }
     .rb-nm { display: block; font-size: 14.5px; font-weight: 700; color: #14532d; }
     .rb-ct { display: block; font-size: 12px; color: #6b7280; margin-top: 3px; }
@@ -970,20 +975,59 @@
 
   </style>
   <style>@view-transition { navigation: auto; }</style>
+  <style>
+    .boot { position: fixed; inset: 0; z-index: 20000; background: linear-gradient(160deg,#f8fafc 0%,#ecfdf5 100%);
+      display: flex; align-items: center; justify-content: center; transition: opacity .45s ease, visibility .45s ease; }
+    .boot.hide { opacity: 0; visibility: hidden; }
+    .boot-box { text-align: center; padding: 24px; max-width: 320px; }
+    .boot-ring { position: relative; width: 116px; height: 116px; margin: 0 auto 22px; }
+    .boot-ring svg { transform: rotate(-90deg); }
+    .boot-ring .bg { stroke: #d1fae5; }
+    .boot-ring .fg { stroke: #16a34a; stroke-linecap: round; transition: stroke-dashoffset .4s ease; }
+    .boot-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 700; color: #166534; letter-spacing: -.5px; }
+    .boot-box h4 { font-size: 16px; font-weight: 600; color: #14532d; margin-bottom: 6px; }
+    .boot-box p { font-size: 13px; color: #4b5563; min-height: 19px; }
+    .boot-dots { display: flex; gap: 6px; justify-content: center; margin-top: 18px; }
+    .boot-dots i { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; opacity: .3; animation: bootD 1.1s infinite; }
+    .boot-dots i:nth-child(2) { animation-delay: .18s; }
+    .boot-dots i:nth-child(3) { animation-delay: .36s; }
+    @keyframes bootD { 0%,100% { opacity: .25; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-4px); } }
+    .ni-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .ni-chip { display: inline-flex; align-items: center; gap: 8px; background: #f0fdf4; border: 1px solid #bbf7d0;
+      color: #166534; font-size: 13px; font-weight: 500; padding: 7px 10px 7px 12px; border-radius: 999px; }
+    .ni-chip button { border: none; background: #dcfce7; color: #166534; width: 20px; height: 20px; border-radius: 50%;
+      cursor: pointer; font-size: 13px; line-height: 1; display: flex; align-items: center; justify-content: center; }
+    .ni-chip button:hover { background: #16a34a; color: #fff; }
+  </style>
   
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="watermark"><img src="https://iili.io/fFA80TF.md.png" alt="Watermark">
+  <div class="boot" id="bootLoader">
+   <div class="boot-box">
+    <div class="boot-ring">
+     <svg width="116" height="116" viewBox="0 0 116 116" fill="none" stroke-width="9">
+      <circle class="bg" cx="58" cy="58" r="50" />
+      <circle class="fg" id="bootArc" cx="58" cy="58" r="50" stroke-dasharray="314" stroke-dashoffset="314" />
+     </svg>
+     <div class="boot-pct" id="bootPct">0%</div>
+    </div>
+    <h4>Memuat Database</h4>
+    <p id="bootMsg">Menyiapkan aplikasi…</p>
+    <div class="boot-dots"><i></i><i></i><i></i></div>
+   </div>
+  </div>
+  <div class="watermark"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Watermark" class="pf-logo-img">
   </div>
   <div class="container"><!-- Sidebar -->
    <aside class="sidebar" id="sidebar"><button class="toggle-btn" id="toggleBtn" onclick="toggleSidebar()">
      <svg id="toggleIcon" width="16" height="16" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
      </svg></button>
-    <div class="logo-section" onclick="toggleMobileSidebar()"><img src="https://iili.io/fFA80TF.md.png" alt="Logo" class="logo-img">
+    <div class="logo-section" onclick="toggleMobileSidebar()"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Logo" class="logo-img pf-logo-img">
      <div class="sidebar-text">
       <h1 id="appTitle" style="font-size: 18px; font-weight: 700; margin-bottom: 2px;">DATAQu</h1>
-      <p style="font-size: 13px; color: #bbf7d0;">SDITQu Seruway</p>
+      <p id="sbSchool" style="font-size: 13px; color: #bbf7d0;">Administrasi Sekolah</p>
      </div>
     </div>
     <nav class="nav-menu"><button class="nav-btn active" data-page="home" onclick="showPage('home')">
@@ -1003,7 +1047,7 @@
       </svg><span class="nav-text">Kartu Ujian</span> </button>
     </nav>
     <div class="sidebar-text" style="padding: 16px; border-top: 1px solid rgba(255,255,255,0.2); text-align: center; font-size: 12px; color: #bbf7d0;">
-     © 2025 DATAQu • SD ITQu Seruway
+     © 2025 DATAQu • <span id="ftSchool">Aplikasi Sekolah</span>
     </div>
    </aside><!-- Main Content -->
    <main class="main-content">
@@ -1014,7 +1058,7 @@
        </button>
        <div style="min-width:0;">
         <h2 id="pageTitle" style="font-size: 24px; font-weight: 700; color: #1f2937; margin-bottom: 4px;">Beranda</h2>
-        <p id="pageSubtitle" style="color: #6b7280; font-size: 14px;">SD International Tahfizh Qur'an Seruway</p>
+        <p id="pageSubtitle" style="color: #6b7280; font-size: 14px;">Memuat profil sekolah…</p>
        </div>
       </div>
       <div class="status-badge no-print" id="statusBadge"><span class="status-dot" style="background: #eab308;"></span> <span style="color: #6b7280;">Memuat data...</span>
@@ -1024,7 +1068,7 @@
       <div id="homePage">
        <div class="db-hero">
         <h2>Assalamu'alaikum</h2>
-        <p>Dashboard administrasi SD International Tahfizh Qur'an Seruway. Pantau data siswa, rombel, dan cari siswa dengan cepat.</p>
+        <p>Dashboard administrasi <span id="heroSchool">sekolah</span>. Pantau data siswa, rombel, dan cari siswa dengan cepat.</p>
        </div>
        <div class="db-stat-grid">
         <div class="db-stat">
@@ -1035,13 +1079,13 @@
         </div>
         <div class="db-stat">
          <div class="db-ico" style="background:#dbeafe;color:#1d4ed8;">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M6 21v-1a6 6 0 0 1 12 0v1" /></svg>
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M8 6.2h8" /><path d="M9 4.6h6" /><circle cx="12" cy="10.2" r="3.4" /><path d="M5.5 21v-1.2C5.5 17 8.4 15 12 15s6.5 2 6.5 4.8V21" /></svg>
          </div>
          <div><b id="dbLaki">-</b><small>Laki-laki</small></div>
         </div>
         <div class="db-stat">
          <div class="db-ico" style="background:#fce7f3;color:#be185d;">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M12 12v9M9 18h6" /></svg>
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M12 3.4c-3.4 0-5.6 2.5-5.6 6 0 3 .7 5.2 1.5 7.2h8.2c.8-2 1.5-4.2 1.5-7.2 0-3.5-2.2-6-5.6-6Z" /><path d="M9.3 8.6a2.9 2.9 0 0 0 5.4 0" /><path d="M8.6 16.6 7 21h10l-1.6-4.4" /></svg>
          </div>
          <div><b id="dbPerempuan">-</b><small>Perempuan</small></div>
         </div>
@@ -1055,7 +1099,7 @@
          <div class="db-ico" style="background:#ede9fe;color:#6d28d9;">
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13" /><path d="M10 21v-6h4v6" /></svg>
          </div>
-         <div><b id="dbRombelSD">-</b><small>Rombel SD / SD</small></div>
+         <div><b id="dbRombelSmp">-</b><small>Rombel SMP / SD</small></div>
         </div>
        </div>
        <div class="db-panel">
@@ -1084,9 +1128,9 @@
        <div class="db-panel">
         <div class="db-panel-h">
          <svg width="20" height="20" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13" /></svg>
-         <h3>Rombel SD / SD / Umum</h3><span>klik untuk melihat detail</span>
+         <h3>Rombel SMP / SD / Umum</h3><span>klik untuk melihat detail</span>
         </div>
-        <div class="rb-list" id="dbListSD">
+        <div class="rb-list" id="dbListSmp">
          <p class="db-empty">Memuat data rombel...</p>
         </div>
        </div>
@@ -1162,7 +1206,7 @@
         <div class="radio-group"><label class="radio-label"> <input type="radio" name="mode" value="pribadi" checked> <span>Pribadi (per siswa, bisa banyak)</span> </label> <label class="radio-label"> <input type="radio" name="mode" value="kolektif"> <span>Kolektif</span> </label>
         </div>
        </div>
-       <div class="form-group"><label class="form-label">Nomor Surat</label> <input type="text" id="nomorSurat" class="input" placeholder="Contoh: 001/SDITQu/I/2025">
+       <div class="form-group"><label class="form-label">Nomor Surat</label> <input type="text" id="nomorSurat" class="input" placeholder="Contoh: 001/SK/I/2026">
        </div>
        <div class="form-group"><label class="form-label">Tanggal Surat</label> <input type="date" id="tanggalSurat" class="input">
        </div>
@@ -1245,6 +1289,13 @@
          <h4 style="font-size:16px;font-weight:600;color:#1f2937;margin-bottom:4px;">Cetak Absen Bulanan</h4>
          <p style="color:#6b7280;font-size:13px;">Absen per kelas + persen kehadiran</p>
         </div>
+        <div class="menu-card" data-tool="nilai" onclick="showAdminTool('nilai')">
+         <div class="icon-box" style="background:#ede9fe;">
+          <svg width="26" height="26" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" /><path d="M14 3v6h6" /><path d="M8 13h8M8 17h5" /></svg>
+         </div>
+         <h4 style="font-size:16px;font-weight:600;color:#1f2937;margin-bottom:4px;">Cetak Lembar Penilaian</h4>
+         <p style="color:#6b7280;font-size:13px;">Kolom penilaian dibuat sendiri</p>
+        </div>
         <div class="menu-card" data-tool="unduh" onclick="showAdminTool('unduh')">
          <div class="icon-box" style="background:#fef3c7;">
           <svg width="26" height="26" fill="none" stroke="#ca8a04" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M12 3v12" /><path d="m7 11 5 5 5-5" /><path d="M4 20h16" /></svg>
@@ -1265,26 +1316,13 @@
       </div>
       <div class="card no-print hidden" id="adTool-absen" style="margin-bottom:24px;">
        <h3 style="font-size:17px;font-weight:700;color:#1f2937;margin-bottom:6px;">Cetak Absen Bulanan</h3>
-       <p style="color:#6b7280;font-size:13px;margin-bottom:18px;">Centang kelas yang akan dicetak. Lembar absen memuat tanggal 1–akhir bulan, rekap H/S/I/A, persen kehadiran, tanda tangan wali kelas dan kepala sekolah.</p>
+       <p style="color:#6b7280;font-size:13px;margin-bottom:18px;">Centang kelas yang akan dicetak. Lembar absen memuat kolom tanggal 1–31, rekap H/S/I/A, persen kehadiran, tanda tangan wali kelas dan kepala sekolah. Kolom bulan, tahun, dan tanggal dibiarkan kosong untuk diisi guru.</p>
        <div class="form-group"><label class="form-label">Sumber Kelas</label>
         <select id="absSumber" class="input" onchange="absSumberChange()">
          <option value="tahfizh">Rombel Tahfizh</option>
-         <option value="rombelSD">Rombel SD / SD</option>
-         <option value="SD">Kelas SD / SD (umum)</option>
+         <option value="rombelsmp">Rombel SMP / SD</option>
+         <option value="smp">Kelas SMP / SD (umum)</option>
         </select>
-       </div>
-       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
-        <div style="flex:1;min-width:150px;"><label class="form-label">Bulan</label>
-         <select id="absBulan" class="input">
-          <option value="0">Januari</option><option value="1">Februari</option><option value="2">Maret</option>
-          <option value="3">April</option><option value="4">Mei</option><option value="5">Juni</option>
-          <option value="6">Juli</option><option value="7">Agustus</option><option value="8">September</option>
-          <option value="9">Oktober</option><option value="10">November</option><option value="11">Desember</option>
-         </select>
-        </div>
-        <div style="flex:1;min-width:130px;"><label class="form-label">Tahun</label>
-         <input type="number" id="absTahun" class="input" value="2026" min="2020" max="2100">
-        </div>
        </div>
        <div class="form-group"><label class="form-label">Tanda Tangan &amp; Stempel Kepala Sekolah</label>
         <div class="radio-group">
@@ -1300,6 +1338,40 @@
         <p style="color:#6b7280;font-size:13px;">Memuat daftar kelas...</p>
        </div>
        <button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="cetakAbsen()">Cetak Absen Kelas Terpilih</button>
+      </div>
+      <div class="card no-print hidden" id="adTool-nilai" style="margin-bottom:24px;">
+       <h3 style="font-size:17px;font-weight:700;color:#1f2937;margin-bottom:6px;">Cetak Lembar Penilaian</h3>
+       <p style="color:#6b7280;font-size:13px;margin-bottom:18px;">Tentukan sendiri kolom penilaiannya, centang kelas yang akan dicetak. Kolom nilai dibiarkan kosong untuk diisi guru.</p>
+       <div class="form-group"><label class="form-label">Judul Penilaian</label><input type="text" id="niJudul" class="input" placeholder="Contoh: Penilaian Harian Semester Ganjil"></div>
+       <div class="form-group"><label class="form-label">Mata Pelajaran / Bidang</label><input type="text" id="niMapel" class="input" placeholder="Contoh: Tahfizh Al-Qur&#39;an"></div>
+       <div class="form-group"><label class="form-label">Sumber Kelas</label>
+        <select id="niSumber" class="input" onchange="niSumberChange()">
+         <option value="tahfizh">Rombel Tahfizh</option>
+         <option value="rombelsmp">Rombel SMP / SD</option>
+         <option value="smp">Kelas SMP / SD (umum)</option>
+        </select>
+       </div>
+       <div class="form-group"><label class="form-label">Kolom Penilaian</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+         <input type="text" id="niKolomInput" class="input" style="flex:1;min-width:200px;" placeholder="Nama kolom, contoh: Hafalan" onkeydown="if(event.key===&#39;Enter&#39;){event.preventDefault();niAddKolom();}">
+         <button class="btn btn-secondary" onclick="niAddKolom()">Tambah Kolom</button>
+        </div>
+        <div class="ni-chips" id="niKolomChips"></div>
+       </div>
+       <div class="form-group"><label class="form-label">Tanda Tangan &amp; Stempel Kepala Sekolah</label>
+        <div class="radio-group">
+         <label class="radio-label"><input type="radio" name="niTtd" value="otomatis" checked> <span>Otomatis (tanda tangan + stempel)</span></label>
+         <label class="radio-label"><input type="radio" name="niTtd" value="manual"> <span>Manual (kosong, tanda tangan sendiri)</span></label>
+        </div>
+       </div>
+       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+        <button class="btn btn-secondary" onclick="niPilihSemua(true)">Centang Semua</button>
+        <button class="btn btn-secondary" onclick="niPilihSemua(false)">Kosongkan</button>
+       </div>
+       <div class="abs-grid" id="niKelasList">
+        <p style="color:#6b7280;font-size:13px;">Memuat daftar kelas...</p>
+       </div>
+       <button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="cetakPenilaian()">Cetak Lembar Penilaian</button>
       </div>
       <div class="card no-print hidden" id="adTool-unduh">
        <h3 style="font-size:17px;font-weight:700;color:#1f2937;margin-bottom:6px;">Unduh Data Siswa</h3>
@@ -1384,7 +1456,7 @@
   </div>
   <div class="sb-backdrop no-print" id="sbBackdrop" onclick="toggleMobileSidebar()"></div>
   <div class="pwa-toast" id="pwaToast">
-   <img src="https://iili.io/fFA80TF.md.png" alt="DATAQu">
+   <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DATAQu" class="pf-logo-img">
    <div style="flex:1;min-width:0;">
     <h4>Instal Aplikasi DATAQu</h4>
     <p id="pwaText">Pasang di layar utama agar bisa dibuka seperti aplikasi.</p>
@@ -1395,6 +1467,54 @@
    </div>
   </div>
   <script>
+    /* =======================================================================
+       ====================  PENGATURAN DATABASE (UBAH DI SINI)  =============
+       Cukup ganti 2 link CSV di bawah ini untuk memakai data sekolah lain.
+       1. CSV_PROFIL_URL  : data profil sekolah (nama, kepala, logo, kop,
+                            tanda tangan, stempel, alamat)
+       2. CSV_SISWA_URL   : data siswa
+       Cara: File > Bagikan > Publikasikan ke web > pilih sheet > format CSV.
+       ======================================================================= */
+    const CSV_PROFIL_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTj9NDKstrj0d9JH7PSMGc4X9ZP1JEarvqoXhF2BZcesqs52oW_jYNKd_fI832uYg/pub?gid=114741463&single=true&output=csv';
+    const CSV_SISWA_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTj9NDKstrj0d9JH7PSMGc4X9ZP1JEarvqoXhF2BZcesqs52oW_jYNKd_fI832uYg/pubhtml?gid=114741463&single=true;
+    /* ==================  BATAS PENGATURAN DATABASE  ======================= */
+
+    /* ============ LOADING AWAL (PERSENTASE) ============ */
+    let _bootPct = 0, _bootTimer = null;
+    function bootPaint() {
+      const arc = document.getElementById('bootArc');
+      const pct = document.getElementById('bootPct');
+      if (pct) pct.textContent = Math.round(_bootPct) + '%';
+      if (arc) arc.setAttribute('stroke-dashoffset', String(314 - (314 * Math.min(_bootPct, 100)) / 100));
+    }
+    function bootSet(target, msg) {
+      const m = document.getElementById('bootMsg');
+      if (m && msg) m.textContent = msg;
+      clearInterval(_bootTimer);
+      _bootTimer = setInterval(() => {
+        if (_bootPct >= target) { clearInterval(_bootTimer); return; }
+        _bootPct = Math.min(target, _bootPct + Math.max(0.6, (target - _bootPct) * 0.18));
+        bootPaint();
+      }, 45);
+    }
+    function bootDone() {
+      clearInterval(_bootTimer);
+      _bootPct = 100; bootPaint();
+      setTimeout(() => {
+        const el = document.getElementById('bootLoader');
+        if (el) { el.classList.add('hide'); setTimeout(() => el.remove(), 600); }
+      }, 420);
+    }
+    function bootFail() {
+      clearInterval(_bootTimer);
+      const m = document.getElementById('bootMsg');
+      if (m) m.innerHTML = 'Gagal memuat database.<br>Periksa koneksi internet lalu muat ulang halaman.';
+      setTimeout(() => {
+        const el = document.getElementById('bootLoader');
+        if (el) { el.classList.add('hide'); setTimeout(() => el.remove(), 600); }
+      }, 2600);
+    }
+
     // State
     let studentsData = [];
     let selectedStudents = [];
@@ -1484,18 +1604,101 @@
       return data;
     }
     
+
+
+    const PROFIL_DEFAULT = {
+      namaSekolah: 'Nama Sekolah',
+      kepala: '..............................',
+      logo: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+      kop: '',
+      ttd: '',
+      stempel: '',
+      alamat: '',
+      kota: '..................'
+    };
+    let PROFIL = Object.assign({}, PROFIL_DEFAULT);
+
+    function pfImg(v) {
+      const t = (v || '').toString().replace(/""/g, '"').trim();
+      if (!t) return '';
+      const urls = t.match(/https?:\/\/[^\s"'<>)]+/gi) || [];
+      const img = urls.find(u => /\.(png|jpe?g|webp|gif|svg)(\?|$)/i.test(u));
+      if (img) return img;
+      const m = /<img[^>]+src\s*=\s*"?([^"'\s>]+)/i.exec(t);
+      if (m) return m[1];
+      return urls[0] || '';
+    }
+
+    function pfKota(alamat) {
+      const t = (alamat || '').toString();
+      const m = /kecamatan\s+([^,]+)/i.exec(t);
+      if (m) return m[1].trim();
+      const p = t.split(',').map(x => x.trim()).filter(Boolean);
+      return p.length ? p[p.length > 2 ? p.length - 3 : 0] : PROFIL_DEFAULT.kota;
+    }
+
+    async function loadProfil() {
+      try {
+        const res = await fetch(CSV_PROFIL_URL);
+        const rows = parseCSV(await res.text());
+        if (!rows.length) return;
+        const h = Object.keys(rows[0]);
+        const kKey = h.find(x => /data\s*profil|profil|nama\s*data/i.test(x)) || h[1];
+        const vKey = h.find(x => /keterangan|isi|value|nilai/i.test(x)) || h[2] || h[1];
+        const map = {};
+        rows.forEach(r => {
+          const k = (r[kKey] || '').toString().trim().toLowerCase();
+          if (k) map[k] = (r[vKey] || '').toString().trim();
+        });
+        const pick = re => { const k = Object.keys(map).find(x => re.test(x)); return k ? map[k] : ''; };
+        const p = {
+          namaSekolah: pick(/nama\s*sekolah/i) || PROFIL_DEFAULT.namaSekolah,
+          kepala: pick(/^nama\s*kepala\s*sekolah/i) || PROFIL_DEFAULT.kepala,
+          logo: pfImg(pick(/logo/i)) || PROFIL_DEFAULT.logo,
+          kop: pfImg(pick(/kop/i)) || PROFIL_DEFAULT.kop,
+          ttd: pfImg(pick(/tanda\s*tangan/i)) || PROFIL_DEFAULT.ttd,
+          stempel: pfImg(pick(/stempel/i)) || PROFIL_DEFAULT.stempel,
+          alamat: pick(/alamat/i) || PROFIL_DEFAULT.alamat
+        };
+        p.kota = pfKota(p.alamat);
+        PROFIL = Object.assign({}, PROFIL_DEFAULT, p);
+      } catch (e) {
+        console.warn('Profil sekolah gagal dimuat, memakai data bawaan.', e);
+      }
+      applyProfil();
+    }
+
+    function applyProfil() {
+      document.title = 'DATAQu — ' + PROFIL.namaSekolah;
+      const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      set('sbSchool', PROFIL.namaSekolah);
+      set('ftSchool', PROFIL.namaSekolah);
+      set('heroSchool', PROFIL.namaSekolah);
+      set('pageSubtitle', PROFIL.namaSekolah);
+      document.querySelectorAll('.pf-logo-img').forEach(img => { img.src = PROFIL.logo; });
+    }
+
     // Load Data
     async function loadData() {
       try {
-        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTj9NDKstrj0d9JH7PSMGc4X9ZP1JEarvqoXhF2BZcesqs52oW_jYNKd_fI832uYg/pub?gid=1632329455&single=true&output=csv');
+        bootSet(8, 'Menghubungkan ke database…');
+        const response = await fetch(CSV_SISWA_URL);
+        bootSet(38, 'Mengunduh data siswa…');
         const text = await response.text();
+        bootSet(55, 'Menyusun data siswa…');
         studentsData = parseCSV(text);
-        
+
+        bootSet(70, 'Memuat profil sekolah…');
+        await loadProfil();
+        bootSet(90, 'Menyiapkan tampilan…');
         updateStatus(true, studentsData.length);
         renderDashboard();
+        bootSet(100, 'Selesai');
+        bootDone();
       } catch (error) {
         console.error('Error:', error);
         updateStatus(false, 0);
+        bootFail();
       }
     }
     
@@ -1582,10 +1785,10 @@
       });
       
       const titles = {
-        home: ['Selamat Datang', 'SD International Tahfizh Quran Seruway'],
-        data: ['Data Siswa', 'Database lengkap siswa SD International Tahfizh Qur\'an'],
+        home: ['Selamat Datang', PROFIL.namaSekolah],
+        data: ['Data Siswa', 'Database lengkap siswa ' + PROFIL.namaSekolah],
         surat: ['Surat Menyurat', 'Generate berbagai jenis surat resmi'],
-        admin: ['Cetak Administrasi', 'Tanda tangan kegiatan & unduh data siswa'],
+        admin: ['Cetak Administrasi', 'Tanda tangan, absen, penilaian & unduh data'],
         buku: ['Format Buku', 'Generate buku administrasi sekolah'],
         kartu: ['Kartu Santri', 'Cetak kartu identitas santri'],
         'kartu-ujian': ['Kartu Ujian', 'Cetak kartu ujian santri']
@@ -1701,7 +1904,7 @@
     }
     
     window.generateSurat = function() {
-      const nomor = document.getElementById('nomorSurat').value || '......./SDITQu/I/2026';
+      const nomor = document.getElementById('nomorSurat').value || '......./....../....../' + new Date().getFullYear();
       const ttd = document.querySelector('input[name="ttd"]:checked').value;
       const mode = document.querySelector('input[name="mode"]:checked')?.value || 'pribadi';
       
@@ -1939,7 +2142,7 @@
     
     // Generate Surat
     function generateSurat() {
-      const nomor = document.getElementById('nomorSurat').value || '......./SDITQu/I/2026';
+      const nomor = document.getElementById('nomorSurat').value || '......./....../....../' + new Date().getFullYear();
       const ttd = document.querySelector('input[name="ttd"]:checked').value;
       const mode = document.querySelector('input[name="mode"]:checked')?.value || 'pribadi';
       
@@ -2011,7 +2214,7 @@
     function getKopSurat() {
       return `
         <div style="text-align: center; margin-bottom: 20px;">
-          <img src="https://i.ibb.co.com/TqYdb1y7/KOP-SDITQU-Seruway.png" alt="Kop Surat" style="width: 100%; max-width: 700px;" loading="lazy" onerror="this.style.display='none'">
+          <img src="${PROFIL.kop}" alt="Kop Surat" style="width: 100%; max-width: 700px;" loading="lazy" onerror="this.style.display='none'">
         </div>
       `;
     }
@@ -2020,23 +2223,23 @@
       if (ttd === 'otomatis') {
         return `
           <div style="float: right; text-align: center; margin-top: 40px; width: 250px;">
-            <p>Seruway, ${tanggal}</p>
+            <p>${PROFIL.kota}, ${tanggal}</p>
             <p>Kepala Sekolah</p>
             <div style="position: relative; height: 100px;">
-              <img src="https://i.ibb.co.com/6R5jk3jv/TANDA-TANGAN-UMI-IPAH-NURUL-Ikf-AINI-TTD.png" alt="TTD" style="height: 80px; position: absolute; left: 50%; transform: translateX(-50%); top: 10px;" loading="lazy" onerror="this.style.display='none'">
-              <img src="https://imgbb.com/"><img src="https://i.ibb.co.com/zVs7mTD9/stempel-sd-it.png" alt="Stempel" style="width: 4.5cm; position: absolute; left: 50%; transform: translateX(-70%); top: 0;" loading="lazy" onerror="this.style.display='none'">
+              <img src="${PROFIL.ttd}" alt="TTD" style="height: 80px; position: absolute; left: 50%; transform: translateX(-50%); top: 10px;" loading="lazy" onerror="this.style.display='none'">
+              <img src="${PROFIL.stempel}" alt="Stempel" style="width: 4.5cm; position: absolute; left: 50%; transform: translateX(-70%); top: 0;" loading="lazy" onerror="this.style.display='none'">
             </div>
-            <p style="font-weight: bold; text-decoration: underline;">Nurul Ikfaini, S.Pd.SD., Gr</p>
+            <p style="font-weight: bold; text-decoration: underline;">${PROFIL.kepala}</p>
             <p>NIP. -</p>
           </div>
         `;
       } else {
         return `
           <div style="float: right; text-align: center; margin-top: 40px; width: 250px;">
-            <p>Seruway, ${tanggal}</p>
+            <p>${PROFIL.kota}, ${tanggal}</p>
             <p>Kepala Sekolah</p>
             <div style="height: 100px;"></div>
-            <p style="font-weight: bold; text-decoration: underline;">Nurul Ikfaini, S.Pd.SD., Gr.</p>
+            <p style="font-weight: bold; text-decoration: underline;">${PROFIL.kepala}</p>
             <p>NIP. -</p>
           </div>
         `;
@@ -2068,7 +2271,7 @@
           ${getKopSurat()}
           <h3 style="text-align: center; text-decoration: underline; margin-bottom: 3px; margin-top: 15px;">SURAT KETERANGAN AKTIF SEKOLAH</h3>
           <p style="text-align: center; margin-top: 0;">Nomor : ${nomor}</p>
-          <p style="margin-top: 25px;">Yang bertanda tangan di bawah ini, Kepala SD International Tahfizh Qur'an, Kecamatan Seruway, dengan ini menerangkan bahwa:</p>
+          <p style="margin-top: 25px;">Yang bertanda tangan di bawah ini, Kepala ${PROFIL.namaSekolah}, dengan ini menerangkan bahwa:</p>
           <table>
             <tr><td style="width: 180px;">Nama Lengkap</td><td style="width: 10px;">:</td><td>${nama}</td></tr>
             <tr><td>NISN</td><td>:</td><td>${nisn}</td></tr>
@@ -2077,7 +2280,7 @@
             <tr><td>Alamat</td><td>:</td><td>${alamat}</td></tr>
             <tr><td>Nomor HP Orang Tua</td><td>:</td><td>${hp}</td></tr>
           </table>
-          <p>Adalah benar siswa tersebut aktif bersekolah dan mengikuti kegiatan pembelajaran di SD International Tahfizh Qur'an.</p>
+          <p>Adalah benar siswa tersebut aktif bersekolah dan mengikuti kegiatan pembelajaran di ${PROFIL.namaSekolah}.</p>
           <p style="margin-top: 15px;">Demikian surat keterangan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
           ${getTTD(ttd, tanggal)}
         </body>
@@ -2114,7 +2317,7 @@
           ${getKopSurat()}
           <h3 style="text-align: center; text-decoration: underline; margin-bottom: 3px; margin-top: 15px;">SURAT KETERANGAN AKTIF SEKOLAH</h3>
           <p style="text-align: center; margin-top: 0;">Nomor : ${nomor}</p>
-          <p style="margin-top: 25px;">Yang bertanda tangan di bawah ini, Kepala SD International Tahfizh Qur'an, Kecamatan Seruway, dengan ini menerangkan bahwa siswa-siswi yang tercantum di bawah ini:</p>
+          <p style="margin-top: 25px;">Yang bertanda tangan di bawah ini, Kepala ${PROFIL.namaSekolah}, dengan ini menerangkan bahwa siswa-siswi yang tercantum di bawah ini:</p>
           <table class="data">
             <thead>
               <tr>
@@ -2127,7 +2330,7 @@
             </thead>
             <tbody>${rows}</tbody>
           </table>
-          <p>Adalah benar siswa-siswi tersebut aktif bersekolah dan mengikuti kegiatan pembelajaran di SD International Tahfizh Qur'an.</p>
+          <p>Adalah benar siswa-siswi tersebut aktif bersekolah dan mengikuti kegiatan pembelajaran di ${PROFIL.namaSekolah}.</p>
           <p style="margin-top: 15px;">Demikian surat keterangan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
           ${getTTD(ttd, tanggal)}
         </body>
@@ -2169,7 +2372,7 @@
           <h3 style="text-align: center; text-decoration: underline; margin-bottom: 3px; margin-top: 15px;">SURAT KETERANGAN PINDAH SEKOLAH</h3>
           <p style="text-align: center; margin-top: 0;">Nomor : ${nomor}</p>
           
-          <p style="margin-top: 20px;">Yang bertanda tangan di bawah ini, Kepala SD International Tahfizh Qur'an, Kecamatan Seruway, dengan ini menerangkan bahwa:</p>
+          <p style="margin-top: 20px;">Yang bertanda tangan di bawah ini, Kepala ${PROFIL.namaSekolah}, dengan ini menerangkan bahwa:</p>
           
           <p style="font-weight: bold; margin-top: 15px; margin-bottom: 5px;">Data Diri Siswa</p>
           <table>
@@ -2262,14 +2465,14 @@
             <tr><td>Nomor HP</td><td>:</td><td>${hp}</td></tr>
           </table>
           
-          <p style="margin-top: 15px;">Dengan ini kami mengajukan permohonan pindah sekolah bagi anak kami tersebut di atas dari SD International Tahfizh Qur'an ke sekolah lain, dengan alasan permohonan dari orang tua/wali.</p>
+          <p style="margin-top: 15px;">Dengan ini kami mengajukan permohonan pindah sekolah bagi anak kami tersebut di atas dari ${PROFIL.namaSekolah} ke sekolah lain, dengan alasan permohonan dari orang tua/wali.</p>
           
           <p style="margin-top: 15px;">Kami menyadari bahwa segala konsekuensi yang timbul akibat perpindahan sekolah ini menjadi tanggung jawab kami sepenuhnya sebagai orang tua/wali. Besar harapan kami agar permohonan ini dapat diproses sebagaimana mestinya.</p>
           
           <p style="margin-top: 15px;">Demikian Surat Permohonan Pindah Sekolah ini kami buat dengan sebenar-benarnya. Atas perhatian dan kebijaksanaan Bapak/Ibu, kami ucapkan terima kasih.</p>
           
           <div style="float: right; text-align: center; margin-top: 30px; width: 250px;">
-            <p>Seruway, ${tanggal}</p>
+            <p>${PROFIL.kota}, ${tanggal}</p>
             <p>Orang Tua / Wali</p>
             <div style="height: 100px;"></div>
             <p>( .......................................................... )</p>
@@ -2304,7 +2507,7 @@
           <h3 style="text-align: center; text-decoration: underline; margin-bottom: 3px; margin-top: 15px;">SURAT REKOMENDASI</h3>
           <p style="text-align: center; margin-top: 0;">Nomor : ${nomor}</p>
           
-          <p style="margin-top: 20px;">Yang bertanda tangan di bawah ini, Kepala SD International Tahfizh Qur'an, Kecamatan Seruway, dengan ini menerangkan bahwa:</p>
+          <p style="margin-top: 20px;">Yang bertanda tangan di bawah ini, Kepala ${PROFIL.namaSekolah}, dengan ini menerangkan bahwa:</p>
           
           <p style="font-weight: bold; margin-top: 15px; margin-bottom: 5px;">Data Diri Siswa</p>
           <table>
@@ -2318,7 +2521,7 @@
           
           <p style="margin-top: 15px;">Berdasarkan hasil pengamatan, penilaian, dan pertimbangan pihak sekolah, siswa tersebut memiliki sikap, kemampuan, serta potensi yang baik dalam mengikuti proses pembelajaran.</p>
           
-          <p style="margin-top: 15px;">Sehubungan dengan hal tersebut, pihak sekolah memberikan rekomendasi dan menyatakan bahwa siswa tersebut layak untuk melanjutkan pendidikan di Sekolah Dasar International Tahfizh Qur'an (SDIT-Qu) Seruway, Yayasan Huda Wan Nurul Qur'ani.</p>
+          <p style="margin-top: 15px;">Sehubungan dengan hal tersebut, pihak sekolah memberikan rekomendasi dan menyatakan bahwa siswa tersebut layak untuk melanjutkan pendidikan ke jenjang berikutnya.</p>
           
           <p style="margin-top: 15px;">Demikian Surat Rekomendasi ini dibuat dengan sebenarnya, agar dapat dipergunakan sebagaimana mestinya.</p>
           
@@ -2363,7 +2566,7 @@
         </head>
         <body>
           <h2>BUKU INDUK SISWA</h2>
-          <p style="text-align: center;">SD International Tahfizh Qur'an Seruway</p>
+          <p style="text-align: center;">${PROFIL.namaSekolah}</p>
           <table>
             <thead>
               <tr>
@@ -2423,7 +2626,7 @@
         </head>
         <body>
           <h2>BUKU KLAPPER (DAFTAR SISWA ALFABETIS)</h2>
-          <p style="text-align: center;">SD International Tahfizh Qur'an Seruway</p>
+          <p style="text-align: center;">${PROFIL.namaSekolah}</p>
           <table>
             <thead>
               <tr>
@@ -2769,15 +2972,15 @@
           <div style="width: 54mm; height: 85.6mm; border: 2.5px solid ${colors.border}; border-radius: 6px; background: linear-gradient(to bottom, #ffffff 0%, #f9fffe 100%); position: relative; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); page-break-inside: avoid; display: flex; flex-direction: column;">
             
             <!-- Watermark Logo -->
-            <img src="https://iili.io/fFA80TF.md.png" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.08; width: 100px; height: 100px; pointer-events: none; z-index: 1;" loading="lazy" onerror="this.style.display='none'">
+            <img src="${PROFIL.logo}" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.08; width: 100px; height: 100px; pointer-events: none; z-index: 1;" loading="lazy" onerror="this.style.display='none'">
             
             <!-- Header -->
             <div style="position: relative; background: ${colors.gradient}; padding: 3mm; text-align: center; z-index: 2;">
               <div style="display: flex; align-items: center; justify-content: center; gap: 2mm; margin-bottom: 1mm;">
-                <img src="https://iili.io/fFA80TF.md.png" alt="Logo" style="width: 9mm; height: 9mm;" loading="lazy" onerror="this.style.display='none'">
+                <img src="${PROFIL.logo}" alt="Logo" style="width: 9mm; height: 9mm;" loading="lazy" onerror="this.style.display='none'">
                 <div>
                   <div style="color: white; font-size: 7.5pt; font-weight: 700; letter-spacing: 0.3px;">KARTU UJIAN SANTRI</div>
-                  <div style="color: rgba(255,255,255,0.95); font-size: 5.5pt; font-weight: 600; line-height: 1.2; margin-top: 0.3mm;">SD International Tahfizh Quran Seruway</div>
+                  <div style="color: rgba(255,255,255,0.95); font-size: 5.5pt; font-weight: 600; line-height: 1.2; margin-top: 0.3mm;">${PROFIL.namaSekolah}</div>
                 </div>
               </div>
               <div style="background: rgba(255,255,255,0.25); padding: 1mm 2mm; border-radius: 3mm; margin-top: 1mm;">
@@ -2806,7 +3009,7 @@
             
             <!-- Footer -->
             <div style="position: relative; background: ${colors.gradient}; padding: 2mm 1.5mm; text-align: center; z-index: 2;">
-              <div style="color: white; font-size: 5pt; font-weight: 600; letter-spacing: 0.3px; line-height: 1.4;">SD International Tahfizh Qur'an - Seruway</div>
+              <div style="color: white; font-size: 5pt; font-weight: 600; letter-spacing: 0.3px; line-height: 1.4;">${PROFIL.namaSekolah}</div>
             </div>
           </div>
         </div>
@@ -3079,16 +3282,16 @@
           <div style="width: 85.6mm; height: 54mm; border: 2.5px solid #166534; border-radius: 4px; background: linear-gradient(to bottom, #ffffff 0%, #f9fffe 100%); position: relative; overflow: hidden; box-shadow: 0 3px 10px rgba(22, 101, 52, 0.2); page-break-inside: avoid;">
             
             <!-- Watermark Logo -->
-            <img src="https://iili.io/fFA80TF.md.png" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.12; width: 140px; height: 140px; pointer-events: none; z-index: 1;" loading="lazy" onerror="this.style.display='none'">
+            <img src="${PROFIL.logo}" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.12; width: 140px; height: 140px; pointer-events: none; z-index: 1;" loading="lazy" onerror="this.style.display='none'">
             
             <!-- Header Compact -->
             <div style="position: relative; background: linear-gradient(135deg, rgba(22, 101, 52, 0.7) 0%, rgba(21, 128, 61, 0.7) 50%, rgba(22, 163, 74, 0.7) 85%, rgba(251, 191, 36, 0.7) 100%); padding: 2mm 3mm; display: flex; align-items: center; gap: 2mm; z-index: 2; height: 14mm;">
-              <img src="https://iili.io/fFA80TF.md.png" alt="Logo" style="width: 10mm; height: 10mm; flex-shrink: 0;" loading="lazy" onerror="this.style.display='none'">
+              <img src="${PROFIL.logo}" alt="Logo" style="width: 10mm; height: 10mm; flex-shrink: 0;" loading="lazy" onerror="this.style.display='none'">
               <div style="flex: 1; text-align: center;">
                 <div style="color: white; font-size: 7.5pt; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 0.3mm;">STUDENT ID CARD</div>
-                <div style="color: white; font-size: 5.5pt; font-weight: 600; line-height: 1.15; margin-bottom: 0.2mm;">SD International Tahfizh Quran Seruway</div>
+                <div style="color: white; font-size: 5.5pt; font-weight: 600; line-height: 1.15; margin-bottom: 0.2mm;">${PROFIL.namaSekolah}</div>
                 <div style="color: rgba(255,255,255,0.95); font-size: 4.5pt; line-height: 1.1;">YAYASAN HUDA WAN NURUL QURANI</div>
-                <div style="color: rgba(255,255,255,0.9); font-size: 4pt; margin-top: 0.2mm;">Seruway – Aceh Tamiang</div>
+                <div style="color: rgba(255,255,255,0.9); font-size: 4pt; margin-top: 0.2mm;">${PROFIL.alamat}</div>
               </div>
             </div>
             
@@ -3132,13 +3335,13 @@
               
               <!-- Right: Signature & Stamp -->
               <div style="text-align: center; position: relative; width: 28mm;">
-                <div style="font-size: 4.5pt; color: #6b7280; font-weight: 500; margin-bottom: 0.5mm;">Seruway, ${tanggalHariIni}</div>
+                <div style="font-size: 4.5pt; color: #6b7280; font-weight: 500; margin-bottom: 0.5mm;">${PROFIL.kota}, ${tanggalHariIni}</div>
                 <div style="font-size: 5pt; color: #374151; font-weight: 600; margin-bottom: 0.5mm;">Principal</div>
                 <div style="position: relative; height: 11mm; width: 100%;">
-                  <img src="https://i.ibb.co.com/81pjzST/Stempel-SDit.png" alt="" style="width: 20mm; position: absolute; left: 50%; transform: translateX(-55%); bottom: -1mm; z-index: 1; opacity: 0.85;" loading="lazy" onerror="this.style.display='none'">
-                  <img src="https://i.ibb.co.com/6R5jk3jv/TANDA-TANGAN-UMI-IPAH-NURUL-Ikf-AINI-TTD.png" alt="" style="height: 9mm; position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: 2;" loading="lazy" onerror="this.style.display='none'">
+                  <img src="${PROFIL.stempel}" alt="" style="width: 20mm; position: absolute; left: 50%; transform: translateX(-55%); bottom: -1mm; z-index: 1; opacity: 0.85;" loading="lazy" onerror="this.style.display='none'">
+                  <img src="${PROFIL.ttd}" alt="" style="height: 9mm; position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: 2;" loading="lazy" onerror="this.style.display='none'">
                 </div>
-                <div style="font-size: 4.5pt; font-weight: 700; color: #166534; line-height: 1.1; margin-top: -0.5mm;">Nurul Ikfaini, S.Pd.SD., Gr.</div>
+                <div style="font-size: 4.5pt; font-weight: 700; color: #166534; line-height: 1.1; margin-top: -0.5mm;">${PROFIL.kepala}</div>
               </div>
             </div>
           </div>
@@ -3187,16 +3390,16 @@
           <div style="width: 85.6mm; height: 54mm; border: 2.5px solid #166534; border-radius: 4px; background: linear-gradient(to bottom, #ffffff 0%, #f9fffe 100%); position: relative; overflow: hidden; box-shadow: 0 3px 10px rgba(22, 101, 52, 0.2);">
             
             <!-- Watermark Logo -->
-            <img src="https://iili.io/fFA80TF.md.png" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.12; width: 140px; height: 140px; pointer-events: none; z-index: 1;" loading="lazy" onerror="this.style.display='none'">
+            <img src="${PROFIL.logo}" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.12; width: 140px; height: 140px; pointer-events: none; z-index: 1;" loading="lazy" onerror="this.style.display='none'">
             
             <!-- Header Compact -->
             <div style="position: relative; background: linear-gradient(135deg, rgba(22, 101, 52, 0.7) 0%, rgba(21, 128, 61, 0.7) 50%, rgba(22, 163, 74, 0.7) 85%, rgba(251, 191, 36, 0.7) 100%); padding: 2mm 3mm; display: flex; align-items: center; gap: 2mm; z-index: 2; height: 14mm;">
-              <img src="https://iili.io/fFA80TF.md.png" alt="Logo" style="width: 10mm; height: 10mm; flex-shrink: 0;" loading="lazy" onerror="this.style.display='none'">
+              <img src="${PROFIL.logo}" alt="Logo" style="width: 10mm; height: 10mm; flex-shrink: 0;" loading="lazy" onerror="this.style.display='none'">
               <div style="flex: 1; text-align: center;">
                 <div style="color: white; font-size: 7.5pt; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 0.3mm;">STUDENT ID CARD</div>
-                <div style="color: white; font-size: 5.5pt; font-weight: 600; line-height: 1.15; margin-bottom: 0.2mm;">SD International Tahfizh Quran Seruway</div>
+                <div style="color: white; font-size: 5.5pt; font-weight: 600; line-height: 1.15; margin-bottom: 0.2mm;">${PROFIL.namaSekolah}</div>
                 <div style="color: rgba(255,255,255,0.95); font-size: 4.5pt; line-height: 1.1;">YAYASAN HUDA WAN NURUL QURANI</div>
-                <div style="color: rgba(255,255,255,0.9); font-size: 4pt; margin-top: 0.2mm;">Seruway – Aceh Tamiang</div>
+                <div style="color: rgba(255,255,255,0.9); font-size: 4pt; margin-top: 0.2mm;">${PROFIL.alamat}</div>
               </div>
             </div>
             
@@ -3240,13 +3443,13 @@
               
               <!-- Right: Signature & Stamp -->
               <div style="text-align: center; position: relative; width: 28mm;">
-                <div style="font-size: 4.5pt; color: #6b7280; font-weight: 500; margin-bottom: 0.5mm;">Seruway, ${tanggalHariIni}</div>
+                <div style="font-size: 4.5pt; color: #6b7280; font-weight: 500; margin-bottom: 0.5mm;">${PROFIL.kota}, ${tanggalHariIni}</div>
                 <div style="font-size: 5pt; color: #374151; font-weight: 600; margin-bottom: 0.5mm;">Principal</div>
                 <div style="position: relative; height: 11mm; width: 100%;">
-                  <img src="https://i.ibb.co.com/81pjzST/Stempel-SDit.png" alt="" style="width: 20mm; position: absolute; left: 50%; transform: translateX(-55%); bottom: -1mm; z-index: 1; opacity: 0.85;" loading="lazy" onerror="this.style.display='none'">
-                  <img src="https://i.ibb.co.com/6R5jk3jv/TANDA-TANGAN-UMI-IPAH-NURUL-Ikf-AINI-TTD.png" alt="" style="height: 9mm; position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: 2;" loading="lazy" onerror="this.style.display='none'">
+                  <img src="${PROFIL.stempel}" alt="" style="width: 20mm; position: absolute; left: 50%; transform: translateX(-55%); bottom: -1mm; z-index: 1; opacity: 0.85;" loading="lazy" onerror="this.style.display='none'">
+                  <img src="${PROFIL.ttd}" alt="" style="height: 9mm; position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: 2;" loading="lazy" onerror="this.style.display='none'">
                 </div>
-                <div style="font-size: 4.5pt; font-weight: 700; color: #166534; line-height: 1.1; margin-top: -0.5mm;">Nurul Ikfaini, S.Pd.,SD., Gr..</div>
+                <div style="font-size: 4.5pt; font-weight: 700; color: #166534; line-height: 1.1; margin-top: -0.5mm;">${PROFIL.kepala}</div>
               </div>
             </div>
           </div>
@@ -3341,8 +3544,8 @@
               <div class="ds-id2">NISN ${s[c.nisn] || '-'} &bull; NIS ${s[c.nis] || '-'} &bull; ${girl ? 'Perempuan' : (jk ? 'Laki-laki' : '-')}</div>
               <div class="ds-line"><span class="ds-line-k">Tahfizh</span><b>${s[d.rombelTahfizh] || '-'}</b></div>
               <div class="ds-line"><span class="ds-line-k">Wali Tahfizh</span><span>${s[d.waliTahfizh] || '-'}</span></div>
-              <div class="ds-line"><span class="ds-line-k">SD / SD</span><b>${s[d.rombelSD] || s[d.kelasSD] || '-'}</b></div>
-              <div class="ds-line"><span class="ds-line-k">Wali Kelas</span><span>${s[d.waliSD] || '-'}</span></div>
+              <div class="ds-line"><span class="ds-line-k">SMP / SD</span><b>${s[d.rombelSmp] || s[d.kelasSmp] || '-'}</b></div>
+              <div class="ds-line"><span class="ds-line-k">Wali Kelas</span><span>${s[d.waliSmp] || '-'}</span></div>
               <div class="ds-kontak2">${kontak || '<span style="font-size:11.5px;color:#9ca3af;">Kontak belum tersedia</span>'}</div>
             </div>
           </div>`;
@@ -3390,7 +3593,7 @@
       const c = dsCols();
       const rows = dsFilter();
       const cols = c.all.filter(k => k && !/^(foto|link foto)$/i.test(k.trim()));
-      downloadExcelTable('Data-Siswa-DATAQu', 'DATA SISWA SD IT QURAN SERUWAY', ['No'].concat(cols),
+      downloadExcelTable('Data-Siswa-DATAQu', ('DATA SISWA ' + PROFIL.namaSekolah.toUpperCase()), ['No'].concat(cols),
         rows.map((s, i) => [i + 1].concat(cols.map(k => s[k] || ''))));
     }
 
@@ -3582,7 +3785,7 @@
       const list = adSiswaByKelas(kelas);
       downloadExcelTable(
         'Data-Siswa' + (kelas ? '-' + kelas : ''),
-        'DATA SISWA SD IT QURAN SERUWAY' + (kelas ? ' — KELAS ' + kelas : ''),
+        ('DATA SISWA ' + PROFIL.namaSekolah.toUpperCase()) + (kelas ? ' — KELAS ' + kelas : ''),
         ['No'].concat(cols),
         list.map((s, i) => [i + 1].concat(cols.map(k => s[k] || '')))
       );
@@ -3606,7 +3809,7 @@
           th, td { border: 1px solid #444; padding: 4px 6px; }
           th { background: #166534; color: #fff; }
         </style></head><body>
-        <h2>DATA SISWA SD IT QURAN SERUWAY${kelas ? ' — KELAS ' + kelas : ''}</h2>
+        <h2>DATA SISWA ${PROFIL.namaSekolah.toUpperCase()}${kelas ? ' — KELAS ' + kelas : ''}</h2>
         <p class="sub">Total ${list.length} siswa • Dicetak ${adTanggalTeks()}</p>
         <table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>
         <script>window.onload = function(){ setTimeout(function(){ window.print(); }, 500); }<\/script>
@@ -3617,7 +3820,7 @@
 
     /* ============ TOOL CARD CETAK ADMINISTRASI ============ */
     window.showAdminTool = function(tool) {
-      ['ttd', 'absen', 'unduh'].forEach(t => {
+      ['ttd', 'absen', 'nilai', 'unduh'].forEach(t => {
         const el = document.getElementById('adTool-' + t);
         if (el) el.classList.add('hidden');
       });
@@ -3631,16 +3834,173 @@
         const sel = document.getElementById('absSumber');
         if (sel && sel.dataset.auto !== '1' && studentsData.length) {
           const k = absKolomKelas();
-          const pilih = ['tahfizh', 'rombelSD', 'SD'].find(x => k[x].kelas && studentsData.some(s => (s[k[x].kelas] || '').trim()));
+          const pilih = ['tahfizh', 'rombelsmp', 'smp'].find(x => k[x].kelas && studentsData.some(s => (s[k[x].kelas] || '').trim()));
           if (pilih) sel.value = pilih;
           sel.dataset.auto = '1';
         }
-        const th = document.getElementById('absTahun');
-        if (th && !th.dataset.set) { th.value = new Date().getFullYear(); th.dataset.set = '1'; }
-        const bl = document.getElementById('absBulan');
-        if (bl && !bl.dataset.set) { bl.value = new Date().getMonth(); bl.dataset.set = '1'; }
         absSumberChange();
       }
+      if (tool === 'nilai') {
+        const sel = document.getElementById('niSumber');
+        if (sel && sel.dataset.auto !== '1' && studentsData.length) {
+          const k = absKolomKelas();
+          const pilih = ['tahfizh', 'rombelsmp', 'smp'].find(x => k[x].kelas && studentsData.some(s => (s[k[x].kelas] || '').trim()));
+          if (pilih) sel.value = pilih;
+          sel.dataset.auto = '1';
+        }
+        niRenderKolom();
+        niSumberChange();
+      }
+    }
+
+    /* ============ CETAK LEMBAR PENILAIAN ============ */
+    let niKolom = ['Sikap', 'Pengetahuan', 'Keterampilan'];
+
+    window.niRenderKolom = function() {
+      const box = document.getElementById('niKolomChips');
+      if (!box) return;
+      box.innerHTML = niKolom.length
+        ? niKolom.map((v, i) => `<span class="ni-chip">${v}<button type="button" title="Hapus kolom" onclick="niRemoveKolom(${i})">&times;</button></span>`).join('')
+        : '<span style="font-size:13px;color:#6b7280;">Belum ada kolom penilaian.</span>';
+    }
+
+    window.niAddKolom = function() {
+      const inp = document.getElementById('niKolomInput');
+      const v = (inp.value || '').trim();
+      if (!v) return;
+      if (niKolom.some(x => x.toLowerCase() === v.toLowerCase())) { alert('Kolom "' + v + '" sudah ada.'); return; }
+      if (niKolom.length >= 12) { alert('Maksimal 12 kolom penilaian agar tetap rapi saat dicetak.'); return; }
+      niKolom.push(v);
+      inp.value = '';
+      niRenderKolom();
+    }
+
+    window.niRemoveKolom = function(i) {
+      niKolom.splice(i, 1);
+      niRenderKolom();
+    }
+
+    window.niSumberChange = function() {
+      const box = document.getElementById('niKelasList');
+      if (!box) return;
+      if (!studentsData.length) { box.innerHTML = '<p style="color:#6b7280;font-size:13px;">Data belum dimuat. Buka menu Data Siswa lalu klik Muat Ulang.</p>'; return; }
+      const k = absKolomKelas()[document.getElementById('niSumber').value];
+      const list = [...new Set(studentsData.map(s => (s[k.kelas] || '').trim()).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b, 'id', { numeric: true }));
+      if (!list.length) { box.innerHTML = '<p style="color:#6b7280;font-size:13px;">Tidak ada data kelas pada pilihan ini.</p>'; return; }
+      box.innerHTML = list.map(v => `
+        <label class="abs-chk">
+          <input type="checkbox" class="ni-kelas" value="${v}">
+          <span>${v}</span>
+          <small>${studentsData.filter(s => (s[k.kelas] || '').trim() === v).length} siswa</small>
+        </label>`).join('');
+    }
+
+    window.niPilihSemua = function(on) {
+      document.querySelectorAll('.ni-kelas').forEach(cb => cb.checked = on);
+    }
+
+    window.cetakPenilaian = function() {
+      if (!studentsData.length) { alert('Data siswa belum dimuat.'); return; }
+      if (!niKolom.length) { alert('Tambahkan minimal satu kolom penilaian.'); return; }
+      const k = absKolomKelas()[document.getElementById('niSumber').value];
+      const kelasDipilih = [...document.querySelectorAll('.ni-kelas:checked')].map(cb => cb.value);
+      if (!kelasDipilih.length) { alert('Centang minimal satu kelas yang akan dicetak.'); return; }
+      const judul = (document.getElementById('niJudul').value || '').trim() || 'Lembar Penilaian Siswa';
+      const mapel = (document.getElementById('niMapel').value || '').trim() || '............................';
+      const ttdMode = document.querySelector('input[name="niTtd"]:checked')?.value || 'otomatis';
+      const c = dsCols();
+
+      const halaman = kelasDipilih.map((kelas, idx) => {
+        const siswa = studentsData
+          .filter(s => (s[k.kelas] || '').trim() === kelas)
+          .sort((a, b) => (a[c.nama] || '').localeCompare(b[c.nama] || ''));
+        const wali = (siswa[0] && siswa[0][k.wali]) ? siswa[0][k.wali] : '..............................';
+        const thNilai = niKolom.map(v => `<th class="nl">${v}</th>`).join('');
+        const tdNilai = niKolom.map(() => '<td class="nl"></td>').join('');
+        const baris = siswa.map((s, i) => `
+          <tr>
+            <td class="ctr">${i + 1}</td>
+            <td class="ctr">${s[c.nis] || '-'}</td>
+            <td class="ctr">${s[c.nisn] || '-'}</td>
+            <td class="nm">${s[c.nama] || '-'}</td>
+            <td class="ctr">${(s[c.jk] || '').toLowerCase().includes('laki') ? 'L' : (s[c.jk] ? 'P' : '-')}</td>
+            ${tdNilai}
+            <td class="nl"></td><td class="nl"></td><td class="ket"></td>
+          </tr>`).join('');
+        return `
+        <div class="lembar${idx < kelasDipilih.length - 1 ? ' pb' : ''}">
+          ${getKopSurat()}
+          <h3>${judul}</h3>
+          <p class="sub">${k.label} &mdash; ${kelas}</p>
+          <table class="info">
+            <tr><td>Kelas</td><td>: ${kelas}</td><td style="width:36px;"></td><td>Wali Kelas</td><td>: ${wali}</td></tr>
+            <tr><td>Mata Pelajaran</td><td>: ${mapel}</td><td></td><td>Semester / T.P.</td><td>: ............................</td></tr>
+            <tr><td>Jumlah Siswa</td><td>: ${siswa.length} orang</td><td></td><td>Bulan / Tahun</td><td>: ............................</td></tr>
+          </table>
+          <table class="nilai">
+            <thead>
+              <tr>
+                <th rowspan="2" class="w-no">No</th>
+                <th rowspan="2" class="w-nis">NIS</th>
+                <th rowspan="2" class="w-nisn">NISN</th>
+                <th rowspan="2" class="w-nm">Nama Siswa</th>
+                <th rowspan="2" class="w-jk">L/P</th>
+                <th colspan="${niKolom.length}">Aspek Penilaian</th>
+                <th colspan="2">Hasil</th>
+                <th rowspan="2" class="w-ket">Keterangan</th>
+              </tr>
+              <tr>${thNilai}<th class="nl">Jumlah</th><th class="nl">Rata-rata</th></tr>
+            </thead>
+            <tbody>${baris}</tbody>
+          </table>
+          <table class="ttd">
+            <tr>
+              <td>
+                <p>Wali Kelas / Guru Mata Pelajaran</p>
+                <div class="sp"></div>
+                <p class="nm-ttd">${wali}</p>
+              </td>
+              <td>
+                <p>${PROFIL.kota}, ............................<br>Kepala Sekolah</p>
+                ${ttdMode === 'otomatis' ? `
+                <div class="sp otomatis">
+                  <img src="${PROFIL.ttd}" alt="TTD" class="img-ttd" onerror="this.style.display='none'">
+                  <img src="${PROFIL.stempel}" alt="Stempel" class="img-stempel" onerror="this.style.display='none'">
+                </div>` : '<div class="sp"></div>'}
+                <p class="nm-ttd">${PROFIL.kepala}</p>
+              </td>
+            </tr>
+          </table>
+        </div>`;
+      }).join('');
+
+      const html = `<!doctype html><html><head><meta charset="utf-8"><title>${judul}</title>
+        <style>
+          @page { size: A4 landscape; margin: 1cm; }
+          body { font-family: 'Times New Roman', serif; color: #000; margin: 0; }
+          h3 { text-align: center; margin: 2px 0; text-transform: uppercase; text-decoration: underline; font-size: 14pt; }
+          p.sub { text-align: center; margin: 0 0 10px; font-size: 11pt; font-weight: bold; }
+          table.info { font-size: 10.5pt; margin-bottom: 6px; }
+          table.nilai { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+          table.nilai th, table.nilai td { border: 1px solid #000; padding: 3px 4px; }
+          table.nilai th { background: #eef2ef; text-align: center; }
+          td.ctr, .nl { text-align: center; }
+          .nl { width: 62px; }
+          .w-no { width: 26px; } .w-nis { width: 58px; } .w-nisn { width: 68px; } .w-jk { width: 26px; } .w-ket { width: 110px; }
+          td.nm { white-space: nowrap; }
+          table.ttd { width: 100%; margin-top: 10px; font-size: 10.5pt; }
+          table.ttd td { width: 50%; text-align: center; vertical-align: top; }
+          .sp { height: 70px; position: relative; }
+          .img-ttd { height: 62px; position: absolute; left: 50%; transform: translateX(-50%); top: 4px; }
+          .img-stempel { width: 3.6cm; position: absolute; left: 50%; transform: translateX(-70%); top: 0; }
+          .nm-ttd { font-weight: bold; text-decoration: underline; }
+          .lembar.pb { page-break-after: always; }
+        </style></head><body>
+        ${halaman}
+        <script>window.onload = function(){ setTimeout(function(){ window.print(); }, 900); }<\/script>
+        </body></html>`;
+      openPrintWindow(html);
     }
 
     /* ============ CETAK ABSEN PER KELAS ============ */
@@ -3649,8 +4009,8 @@
       const f = re => h.find(x => re.test(x)) || '';
       return {
         tahfizh: { kelas: f(/rombel\s*tahfizh/i), wali: f(/wali\s*kelas\s*tahfizh/i), label: 'Kelas Tahfizh' },
-        SD: { kelas: f(/^kelas\s*SD/i), wali: f(/wali\s*kelas\s*SD/i), label: 'Kelas SD / SD' },
-        rombelSD: { kelas: f(/rombel\s*SD/i), wali: f(/wali\s*kelas\s*SD/i), label: 'Rombel SD / SD' }
+        smp: { kelas: f(/^kelas\s*smp/i), wali: f(/wali\s*kelas\s*smp/i), label: 'Kelas SMP / SD' },
+        rombelsmp: { kelas: f(/rombel\s*smp/i), wali: f(/wali\s*kelas\s*smp/i), label: 'Rombel SMP / SD' }
       };
     }
 
@@ -3682,12 +4042,10 @@
       const k = absKolomKelas()[src];
       const kelasDipilih = [...document.querySelectorAll('.abs-kelas:checked')].map(cb => cb.value);
       if (!kelasDipilih.length) { alert('Centang minimal satu kelas yang akan dicetak.'); return; }
-      const bulan = parseInt(document.getElementById('absBulan').value, 10);
-      const tahun = parseInt(document.getElementById('absTahun').value, 10) || new Date().getFullYear();
       const ttdMode = document.querySelector('input[name="absTtd"]:checked')?.value || 'otomatis';
-      const jmlHari = new Date(tahun, bulan + 1, 0).getDate();
+      const jmlHari = 31;
       const c = dsCols();
-      const tanggalCetak = `${jmlHari} ${NAMA_BULAN[bulan]} ${tahun}`;
+      const tanggalCetak = '............................';
 
       const halaman = kelasDipilih.map((kelas, idxKelas) => {
         const siswa = studentsData
@@ -3711,10 +4069,10 @@
         <div class="lembar${idxKelas < kelasDipilih.length - 1 ? ' pb' : ''}">
           ${getKopSurat()}
           <h3>Daftar Absensi Siswa</h3>
-          <p class="sub">${k.label} &mdash; ${kelas} &bull; Bulan ${NAMA_BULAN[bulan]} ${tahun}</p>
+          <p class="sub">${k.label} &mdash; ${kelas}</p>
           <table class="info">
             <tr><td>Kelas</td><td>: ${kelas}</td><td style="width:40px;"></td><td>Wali Kelas</td><td>: ${wali}</td></tr>
-            <tr><td>Bulan</td><td>: ${NAMA_BULAN[bulan]} ${tahun}</td><td></td><td>Jumlah Siswa</td><td>: ${siswa.length} orang</td></tr>
+            <tr><td>Jumlah Siswa</td><td>: ${siswa.length} orang</td><td></td><td>Bulan / Tahun</td><td>: ............................</td></tr>
           </table>
           <table class="absen">
             <thead>
@@ -3741,20 +4099,20 @@
                 <p class="nm-ttd">${wali}</p>
               </td>
               <td>
-                <p>Seruway, ${tanggalCetak}<br>Kepala Sekolah</p>
+                <p>${PROFIL.kota}, ${tanggalCetak}<br>Kepala Sekolah</p>
                 ${ttdMode === 'otomatis' ? `
                 <div class="sp otomatis">
-                  <img src="https://i.ibb.co.com/Vccqkch6/tanda-tangan-habibi.png" alt="TTD" class="img-ttd" onerror="this.style.display='none'">
-                  <img src="https://i.ibb.co.com/81pjzST/Stempel-SDit.png" alt="Stempel" class="img-stempel" onerror="this.style.display='none'">
+                  <img src="${PROFIL.ttd}" alt="TTD" class="img-ttd" onerror="this.style.display='none'">
+                  <img src="${PROFIL.stempel}" alt="Stempel" class="img-stempel" onerror="this.style.display='none'">
                 </div>` : '<div class="sp"></div>'}
-                <p class="nm-ttd">Nurul Ikfaini, S.Pd.,SD., Gr..</p>
+                <p class="nm-ttd">${PROFIL.kepala}</p>
               </td>
             </tr>
           </table>
         </div>`;
       }).join('');
 
-      const html = `<!doctype html><html><head><meta charset="utf-8"><title>Absen ${NAMA_BULAN[bulan]} ${tahun}</title>
+      const html = `<!doctype html><html><head><meta charset="utf-8"><title>Daftar Absensi Siswa</title>
         <style>
           @page { size: A4 landscape; margin: 1cm; }
           body { font-family: 'Times New Roman', serif; color: #000; margin: 0; }
@@ -3791,9 +4149,9 @@
       return {
         rombelTahfizh: f(/rombel\s*tahfizh/i),
         waliTahfizh: f(/wali\s*kelas\s*tahfizh/i),
-        kelasSD: f(/^kelas\s*SD/i),
-        rombelSD: f(/rombel\s*SD/i),
-        waliSD: f(/wali\s*kelas\s*SD/i),
+        kelasSmp: f(/^kelas\s*smp/i),
+        rombelSmp: f(/rombel\s*smp/i),
+        waliSmp: f(/wali\s*kelas\s*smp/i),
         hpAyah: f(/nomor\s*hp\s*ayah/i),
         hpIbu: f(/nomor\s*hp\s*ibu/i),
         hpFam: f(/nomor\s*hp\s*family/i),
@@ -3833,31 +4191,40 @@
       set('dbLaki', laki);
       set('dbPerempuan', total - laki);
 
-      const tahfizh = grupRombel(d.rombelTahfizh);
-      const SD = grupRombel(d.rombelSD || d.kelasSD);
+      const kolomIsi = (...list) => list.find(k => k && studentsData.some(s => (s[k] || '').trim())) || '';
+      const kolT = kolomIsi(d.rombelTahfizh);
+      const kolS = kolomIsi(d.rombelSmp, d.kelasSmp);
+      const tahfizh = grupRombel(kolT);
+      const smp = grupRombel(kolS);
       set('dbRombelTahfizh', tahfizh.length);
-      set('dbRombelSD', SD.length);
+      set('dbRombelSmp', smp.length);
 
-      const chip = (label, arr, jenis) => `
+      const chip = (label, arr, jenis) => {
+        const kolomWali = jenis === 'tahfizh' ? d.waliTahfizh : d.waliSmp;
+        const wali = [...new Set(arr.map(s => (s[kolomWali] || '').trim()).filter(Boolean))].join(', ') || 'Wali kelas belum diisi';
+        return `
         <button class="rb-chip" onclick="dbRombelDetail('${jenis}', ${JSON.stringify(label).replace(/"/g, '&quot;')})">
           <span class="rb-nm">${label}</span>
+          <span class="rb-wali">${svgUser(13)}<span>${wali}</span></span>
           <span class="rb-ct">${arr.length} siswa</span>
         </button>`;
+      };
       const boxT = document.getElementById('dbListTahfizh');
-      const boxS = document.getElementById('dbListSD');
-      if (boxT) boxT.innerHTML = tahfizh.length ? tahfizh.map(([k, v]) => chip(k, v, 'tahfizh')).join('') : '<p class="db-empty">Belum ada data rombel tahfizh.</p>';
-      if (boxS) boxS.innerHTML = SD.length ? SD.map(([k, v]) => chip(k, v, 'SD')).join('') : '<p class="db-empty">Belum ada data rombel SD/SD.</p>';
+      const boxS = document.getElementById('dbListSmp');
+      if (boxT) boxT.innerHTML = tahfizh.length ? tahfizh.map(([k, v]) => chip(k, v, 'tahfizh')).join('') : `<p class="db-empty">Kolom <b>${d.rombelTahfizh || 'ROMBEL TAHFIZH'}</b> pada spreadsheet belum diisi.</p>`;
+      if (boxS) boxS.innerHTML = smp.length ? smp.map(([k, v]) => chip(k, v, 'smp')).join('') : `<p class="db-empty">Kolom <b>${d.rombelSmp || d.kelasSmp || 'ROMBEL SMP'}</b> pada spreadsheet belum diisi.</p>`;
     }
 
     window.dbRombelDetail = function(jenis, nama) {
       const d = dbKolom();
       const c = dsCols();
-      const kolom = jenis === 'tahfizh' ? d.rombelTahfizh : (d.rombelSD || d.kelasSD);
-      const kolomWali = jenis === 'tahfizh' ? d.waliTahfizh : d.waliSD;
+      const isi = (...l) => l.find(k => k && studentsData.some(s => (s[k] || '').trim())) || '';
+      const kolom = jenis === 'tahfizh' ? isi(d.rombelTahfizh) : isi(d.rombelSmp, d.kelasSmp);
+      const kolomWali = jenis === 'tahfizh' ? d.waliTahfizh : d.waliSmp;
       const siswa = studentsData.filter(s => (s[kolom] || '').trim() === nama);
       const laki = siswa.filter(s => (s[c.jk] || '').toLowerCase().includes('laki')).length;
       const guru = [...new Set(siswa.map(s => (s[kolomWali] || '').trim()).filter(Boolean))];
-      const judul = jenis === 'tahfizh' ? 'Rombel Tahfizh' : 'Rombel SD / SD';
+      const judul = jenis === 'tahfizh' ? 'Rombel Tahfizh' : 'Rombel SMP / SD';
       const guruHtml = guru.length ? guru.map(g => `
         <button class="rb-guru" onclick="dbGuruSiswa('${jenis}', ${JSON.stringify(nama).replace(/"/g, '&quot;')}, ${JSON.stringify(g).replace(/"/g, '&quot;')})">
           ${svgUser(16)}<span>${g}</span>
@@ -3886,8 +4253,9 @@
     window.dbGuruSiswa = function(jenis, nama, guru) {
       const d = dbKolom();
       const c = dsCols();
-      const kolom = jenis === 'tahfizh' ? d.rombelTahfizh : (d.rombelSD || d.kelasSD);
-      const kolomWali = jenis === 'tahfizh' ? d.waliTahfizh : d.waliSD;
+      const isi = (...l) => l.find(k => k && studentsData.some(s => (s[k] || '').trim())) || '';
+      const kolom = jenis === 'tahfizh' ? isi(d.rombelTahfizh) : isi(d.rombelSmp, d.kelasSmp);
+      const kolomWali = jenis === 'tahfizh' ? d.waliTahfizh : d.waliSmp;
       const siswa = studentsData
         .filter(s => (s[kolom] || '').trim() === nama && (s[kolomWali] || '').trim() === guru)
         .sort((a, b) => (a[c.nama] || '').localeCompare(b[c.nama] || ''));
@@ -3903,7 +4271,7 @@
       dbModal(`
         <div class="mdl-head">
           <div class="mdl-title">${guru}</div>
-          <div class="mdl-sub">${jenis === 'tahfizh' ? 'Rombel Tahfizh' : 'Rombel SD / SD'} ${nama} &bull; ${siswa.length} siswa</div>
+          <div class="mdl-sub">${jenis === 'tahfizh' ? 'Rombel Tahfizh' : 'Rombel SMP / SD'} ${nama} &bull; ${siswa.length} siswa</div>
         </div>
         <div class="mdl-body">
           <div style="overflow:auto;">
@@ -3945,7 +4313,7 @@
         const nama = s[c.nama] || '-';
         return `<button class="sr-item" onclick="dbShowStudent(${i})">
           <span class="sr-ava">${foto ? `<img src="${foto}" alt="">` : svgUser(16)}</span>
-          <span class="sr-tx"><b>${nama}</b><small>NISN ${s[c.nisn] || '-'} &bull; ${s[d.rombelTahfizh] || s[d.kelasSD] || '-'}</small></span>
+          <span class="sr-tx"><b>${nama}</b><small>NISN ${s[c.nisn] || '-'} &bull; ${s[d.rombelTahfizh] || s[d.kelasSmp] || '-'}</small></span>
         </button>`;
       }).join('') : '<div class="sr-empty">Siswa tidak ditemukan.</div>';
     }
@@ -3988,9 +4356,9 @@
                 <span>Wali: ${s[d.waliTahfizh] || '-'}</span>
               </div>
               <div class="pf-kelas-item">
-                <small>Kelas SD / SD / Umum</small>
-                <b>${s[d.rombelSD] || s[d.kelasSD] || '-'}</b>
-                <span>Wali: ${s[d.waliSD] || '-'}</span>
+                <small>Kelas SMP / SD / Umum</small>
+                <b>${s[d.rombelSmp] || s[d.kelasSmp] || '-'}</b>
+                <span>Wali: ${s[d.waliSmp] || '-'}</span>
               </div>
             </div>
             <div class="pf-foto" ${foto ? `onclick="showFoto('${foto}', ${JSON.stringify(nama).replace(/"/g, '&quot;')})"` : ''}>
@@ -4036,11 +4404,11 @@
 
     /* ============ PWA: MANIFEST INLINE + POPUP INSTAL ============ */
     ;(function setupPWA() {
-      const icon = 'https://iili.io/fFA80TF.md.png';
+      const icon = PROFIL.logo;
       const manifest = {
-        name: 'DATAQu — SD IT Quran Seruway',
+        name: 'DATAQu — ' + PROFIL.namaSekolah,
         short_name: 'DATAQu',
-        description: 'Aplikasi administrasi & surat menyurat SD International Tahfizh Qur\'an Seruway',
+        description: 'Aplikasi administrasi & surat menyurat ' + PROFIL.namaSekolah,
         start_url: '.',
         scope: '.',
         display: 'standalone',
