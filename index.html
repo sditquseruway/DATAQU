@@ -1041,7 +1041,8 @@
       <svg width="20" height="20" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
       </svg><span class="nav-text">Kartu Santri</span> </button> <button class="nav-btn" data-page="kartu-ujian" onclick="showPage('kartu-ujian')">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg><span class="nav-text">Kartu Ujian</span> </button>
+      </svg><span class="nav-text">Kartu Ujian</span> </button> <button class="nav-btn" data-page="pwa" onclick="showPage('pwa')">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5" /><path d="M12 7v7" /><path d="m9 11 3 3 3-3" /></svg><span class="nav-text">Unduh Aplikasi</span> </button>
     </nav>
     <div class="sidebar-text" style="padding: 16px; border-top: 1px solid rgba(255,255,255,0.2); text-align: center; font-size: 12px; color: #bbf7d0;">
      © 2025 DATAQu • <span id="ftSchool">Aplikasi Sekolah</span>
@@ -1191,6 +1192,13 @@
          <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Surat Rekomendasi</h4>
          <p style="color: #6b7280; font-size: 13px;">Rekomendasi Siswa</p>
         </div>
+        <div class="menu-card" onclick="openSuratForm('rekom_kegiatan')">
+         <div class="icon-box" style="background: #ffe4e6;">
+          <svg width="24" height="24" fill="none" stroke="#e11d48" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M8 21h8" /><path d="M12 17v4" /><path d="M7 4h10v5a5 5 0 0 1-10 0Z" /><path d="M17 5h3v2a3 3 0 0 1-3 3" /><path d="M7 5H4v2a3 3 0 0 0 3 3" /></svg>
+         </div>
+         <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Surat Rekomendasi Kegiatan</h4>
+         <p style="color: #6b7280; font-size: 13px;">Lomba &amp; kegiatan (kolektif / pribadi)</p>
+        </div>
        </div>
       </div>
       <div id="suratForm" class="card hidden">
@@ -1231,7 +1239,38 @@
          <button type="button" onclick="clearSelectedStudents()" class="btn btn-secondary" style="min-width:140px;">Kosongkan Pilihan</button>
         </div>
         <div id="suratFilterInfo" style="margin-top:10px; font-size:13px; color:#166534;"></div>
-       </div>
+        </div>
+        <div id="rkFields" class="hidden" style="background:#fff1f2; border:1px solid #fecdd3; border-radius:12px; padding:16px; margin-bottom:16px;">
+         <div class="form-group"><label class="form-label">Jenis Rekomendasi Kegiatan</label>
+          <input type="text" id="rkJenis" class="input" placeholder="Contoh: Lomba / Pelatihan / Studi Banding">
+         </div>
+         <div class="form-group"><label class="form-label">Nama Kegiatan</label>
+          <input type="text" id="rkKegiatan" class="input" placeholder="Contoh: Lomba Tahfizh Tingkat Kabupaten Tahun 2026">
+         </div>
+         <div class="form-group"><label class="form-label">Penyelenggara / Tempat &amp; Waktu (opsional)</label>
+          <textarea id="rkTempat" class="input" placeholder="Contoh: Diselenggarakan oleh Dinas Pendidikan, di Aula Kantor Bupati, 12 Oktober 2026"></textarea>
+         </div>
+         <label class="form-label" style="font-weight:600;">Tambahkan Siswa Berdasarkan Kelas</label>
+         <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:170px;">
+           <label class="form-label" style="font-size:13px;">Sumber Kelas</label>
+           <select id="rkSumber" class="input" onchange="rkSumberChange()">
+            <option value="tahfizh">Rombel Tahfizh</option>
+            <option value="rombelsmp">Rombel SMP / SD</option>
+            <option value="smp">Kelas SMP / SD (umum)</option>
+           </select>
+          </div>
+          <div style="flex:1; min-width:170px;">
+           <label class="form-label" style="font-size:13px;">Kelas</label>
+           <select id="rkKelas" class="input"><option value="">-- Pilih Kelas --</option></select>
+          </div>
+         </div>
+         <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+          <button type="button" onclick="rkTambahKelas()" class="btn btn-primary" style="flex:1; min-width:180px;">+ Tambahkan Semua Siswa Kelas Ini</button>
+          <button type="button" onclick="clearSelectedStudents()" class="btn btn-secondary" style="min-width:140px;">Kosongkan Pilihan</button>
+         </div>
+         <p style="color:#6b7280; font-size:12.5px; margin-top:10px;">Atau pilih siswa satu per satu melalui kotak pencarian di bawah (bisa banyak siswa).</p>
+        </div>
        <div id="studentSelectContainer" class="form-group"><label class="form-label">Pilih Siswa</label>
         <div style="position: relative;"><input type="text" id="studentSearch" class="input" placeholder="Cari nama siswa..." autocomplete="off">
          <div id="studentDropdown" class="dropdown hidden"></div>
@@ -1448,7 +1487,21 @@
        <div id="kartuContainer"></div>
       </div>
      </div>
-    </div>
+     <div id="pwaPage" class="hidden" style="display:block; align-self:flex-start; width:100%;">
+      <div class="card" style="max-width:560px;margin:0 auto 40px;text-align:center;">
+       <img src="" class="pf-logo-img" alt="Logo" style="width:84px;height:84px;object-fit:contain;border-radius:18px;margin:0 auto 14px;display:block;">
+       <h3 style="font-size:19px;font-weight:700;color:#1f2937;margin-bottom:8px;">Unduh Aplikasi</h3>
+       <p style="color:#6b7280;font-size:14px;line-height:1.7;margin-bottom:20px;">Pasang aplikasi ini di ponsel atau laptop agar bisa dibuka langsung dari layar utama, lebih cepat, dan tanpa membuka browser.</p>
+       <button class="btn btn-primary" style="width:100%;" onclick="pwaInstall()">Instal Aplikasi Sekarang</button>
+       <div id="pwaPageHint" style="margin-top:16px;font-size:13px;color:#6b7280;line-height:1.7;text-align:left;background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:14px;">
+        <b>Jika tombol tidak berfungsi:</b><br>
+        • Android / Chrome: buka menu (⋮) lalu pilih <b>Instal aplikasi</b>.<br>
+        • iPhone / Safari: ketuk ikon <b>Bagikan</b> lalu <b>Tambahkan ke Layar Utama</b>.<br>
+        • Laptop: klik ikon instal pada bilah alamat browser.
+       </div>
+      </div>
+     </div>
+     </div>
    </main>
   </div>
   <div class="sb-backdrop no-print" id="sbBackdrop" onclick="toggleMobileSidebar()"></div>
@@ -1781,7 +1834,7 @@
     
     // Page Navigation
     window.showPage = function(page) {
-      const pages = ['home', 'data', 'surat', 'admin', 'buku', 'kartu', 'kartu-ujian'];
+      const pages = ['home', 'data', 'surat', 'admin', 'buku', 'kartu', 'kartu-ujian', 'pwa'];
       pages.forEach(p => {
         const el = document.getElementById(p + 'Page');
         if (el) el.classList.add('hidden');
@@ -1804,7 +1857,8 @@
         admin: ['Cetak Administrasi', 'Tanda tangan, absen, penilaian & unduh data'],
         buku: ['Format Buku', 'Generate buku administrasi sekolah'],
         kartu: ['Kartu Santri', 'Cetak kartu identitas santri'],
-        'kartu-ujian': ['Kartu Ujian', 'Cetak kartu ujian santri']
+        'kartu-ujian': ['Kartu Ujian', 'Cetak kartu ujian santri'],
+        pwa: ['Unduh Aplikasi', 'Pasang aplikasi di ponsel atau laptop']
       };
       
       document.getElementById('pageTitle').textContent = titles[page][0];
@@ -1888,6 +1942,19 @@
         mode.classList.add('hidden');
         studentSelect.classList.add('hidden');
         manualFields.classList.remove('hidden');
+      } else if (type === 'rekom_kegiatan') {
+        document.getElementById('suratFormTitle').textContent = 'Surat Rekomendasi Kegiatan';
+        mode.classList.remove('hidden');
+        studentSelect.classList.remove('hidden');
+        manualFields.classList.add('hidden');
+        const rk = document.getElementById('rkFields');
+        if (rk) rk.classList.remove('hidden');
+        rkSumberChange();
+        updateSelectedStudents();
+      }
+      if (type !== 'rekom_kegiatan') {
+        const rk = document.getElementById('rkFields');
+        if (rk) rk.classList.add('hidden');
       }
     }
     
@@ -2204,6 +2271,15 @@
           content = generateSuratPindahSekolah(selectedStudents[0], nomor, tanggal, ttd);
         } else if (currentSuratType === 'permohonan_pindah') {
           content = generateSuratPermohonanPindah(selectedStudents[0], tanggal);
+        } else if (currentSuratType === 'rekom_kegiatan') {
+          const jenis = (document.getElementById('rkJenis').value || '').trim();
+          const kegiatan = (document.getElementById('rkKegiatan').value || '').trim();
+          const tempat = (document.getElementById('rkTempat').value || '').trim();
+          if (!kegiatan) {
+            showInlineMessage('Silakan isi Nama Kegiatan terlebih dahulu');
+            return;
+          }
+          content = generateSuratRekomKegiatan(selectedStudents, { jenis, kegiatan, tempat }, nomor, tanggal, ttd, mode);
         }
       }
       
@@ -2543,6 +2619,126 @@
         </html>
       `;
     }
+
+    /* ===== Surat Rekomendasi Kegiatan ===== */
+    window.rkSumberChange = function() {
+      const sel = document.getElementById('rkKelas');
+      if (!sel) return;
+      if (!studentsData.length) { sel.innerHTML = '<option value="">Data belum dimuat</option>'; return; }
+      const k = absKolomKelas()[document.getElementById('rkSumber').value];
+      const list = [...new Set(studentsData.map(s => (s[k.kelas] || '').trim()).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b, 'id', { numeric: true }));
+      sel.innerHTML = '<option value="">-- Pilih Kelas --</option>' +
+        (list.length
+          ? list.map(v => `<option value="${v}">${v} (${studentsData.filter(s => (s[k.kelas] || '').trim() === v).length} siswa)</option>`).join('')
+          : '<option value="">Tidak ada data kelas</option>');
+    };
+
+    window.rkTambahKelas = function() {
+      if (!studentsData.length) { showInlineMessage('Data siswa belum dimuat.'); return; }
+      const k = absKolomKelas()[document.getElementById('rkSumber').value];
+      const kelas = document.getElementById('rkKelas').value;
+      if (!kelas) { showInlineMessage('Silakan pilih kelas terlebih dahulu.'); return; }
+      const h = Object.keys(studentsData[0]);
+      studentsData.filter(s => (s[k.kelas] || '').trim() === kelas).forEach(st => {
+        const ada = selectedStudents.some(s => s[h[1]] === st[h[1]] && s[h[3]] === st[h[3]]);
+        if (!ada) selectedStudents.push(st);
+      });
+      updateSelectedStudents();
+    };
+
+    function rkTTL(s) {
+      const h = Object.keys(s);
+      const f = re => h.find(x => re.test(x));
+      const gab = f(/tempat\s*[\/,]?\s*tanggal\s*lahir|^ttl$/i);
+      if (gab && (s[gab] || '').trim()) return (s[gab] || '').trim();
+      const kt = f(/^tempat(\s*lahir)?$/i), kl = f(/tgl\.?\s*lahir|tanggal\s*lahir/i);
+      const t = kt ? (s[kt] || '').trim() : '';
+      const l = kl ? (s[kl] || '').trim() : '';
+      if (t || l) return [t, l].filter(Boolean).join(', ');
+      return (s[h[24]] || '-').toString().trim() || '-';
+    }
+
+    function generateSuratRekomKegiatan(students, info, nomor, tanggal, ttd, mode) {
+      const c = dsCols();
+      const jenisTxt = info.jenis ? `${info.jenis} - ${info.kegiatan}` : info.kegiatan;
+      const alamat = PROFIL.alamat || '..............................................';
+
+      const kepalaBlok = `
+        <p style="margin-top: 18px;">Yang bertanda tangan di bawah ini:</p>
+        <table class="idn">
+          <tr><td style="width: 150px;">Nama</td><td style="width: 10px;">:</td><td><b>${PROFIL.kepala}</b></td></tr>
+          <tr><td>Jabatan</td><td>:</td><td>Kepala ${PROFIL.namaSekolah}</td></tr>
+          <tr><td>Alamat</td><td>:</td><td>${alamat}</td></tr>
+        </table>`;
+
+      const tabel = (list) => `
+        <table class="siswa">
+          <thead>
+            <tr>
+              <th style="width: 34px;">No</th>
+              <th>Nama Siswa</th>
+              <th style="width: 110px;">NISN</th>
+              <th style="width: 190px;">Tempat, Tanggal Lahir</th>
+              <th style="width: 110px;">Ket.</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.map((s, i) => `
+              <tr>
+                <td class="ctr">${i + 1}</td>
+                <td>${s[c.nama] || '-'}</td>
+                <td class="ctr">${s[c.nisn] || '-'}</td>
+                <td>${rkTTL(s)}</td>
+                <td class="ctr">${(s[c.kelas] || '-')}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`;
+
+      const halaman = (list) => `
+        <div class="lembar">
+          ${getKopSurat()}
+          <h3 class="judul">SURAT REKOMENDASI KEGIATAN</h3>
+          <p class="nomor">Nomor : ${nomor}</p>
+          ${kepalaBlok}
+          <p style="margin-top: 14px;">Dengan ini menerangkan bahwa ${list.length > 1 ? 'siswa-siswi' : 'siswa'} di bawah ini benar merupakan ${list.length > 1 ? 'siswa-siswi' : 'siswa'} ${PROFIL.namaSekolah}:</p>
+          ${tabel(list)}
+          <p style="margin-top: 14px; text-align: justify;">Dengan ini merekomendasikan ${list.length > 1 ? 'siswa-siswi' : 'siswa'} tersebut di atas untuk mengikuti kegiatan <b>${jenisTxt}</b>.${info.tempat ? ` ${info.tempat}.` : ''}</p>
+          <p style="margin-top: 12px; text-align: justify;">Demikian surat rekomendasi ini dibuat dengan sebenarnya, agar dapat dipergunakan sebagaimana mestinya.</p>
+          ${getTTD(ttd, tanggal)}
+          <div style="clear: both;"></div>
+        </div>`;
+
+      const isi = mode === 'kolektif'
+        ? halaman(students)
+        : students.map(s => halaman([s])).join('');
+
+      return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Surat Rekomendasi Kegiatan</title>
+          <style>
+            @page { size: 8.5in 13in; margin: 1cm 1.5cm; }
+            body { font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.7; }
+            .lembar { page-break-after: always; }
+            .lembar:last-child { page-break-after: auto; }
+            .judul { text-align: center; text-decoration: underline; margin: 15px 0 3px; }
+            .nomor { text-align: center; margin: 0 0 4px; }
+            table.idn td { padding: 2px 8px; vertical-align: top; }
+            table.siswa { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10.5pt; }
+            table.siswa th, table.siswa td { border: 1px solid #000; padding: 5px 6px; }
+            table.siswa th { background: #f1f5f9; text-align: center; }
+            table.siswa td.ctr { text-align: center; }
+          </style>
+        </head>
+        <body>
+          ${isi}
+        </body>
+        </html>
+      `;
+    }
+
     
     // Buku Functions
     window.generateBukuInduk = function() {
