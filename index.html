@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="id" class="h-full">
  <head>
@@ -1031,7 +1033,7 @@
       <svg width="20" height="20" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
       </svg><span class="nav-text">Beranda</span> </button> <button class="nav-btn" data-page="data" onclick="showPage('data')">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg><span class="nav-text">Data Siswa</span> </button> <button class="nav-btn" data-page="surat" onclick="showPage('surat')">
+      </svg><span class="nav-text">Data Siswa</span> </button> <button class="nav-btn" data-page="guru" onclick="showPage('guru')"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"/><path d="M16 3.5a4 4 0 0 1 0 7"/><path d="M22 21v-1a6 6 0 0 0-4-5.6"/></svg><span class="nav-text">Data Guru &amp; Tendik</span></button> <button class="nav-btn" data-page="surat" onclick="showPage('surat')">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg><span class="nav-text">Surat Menyurat</span> </button> <button class="nav-btn" data-page="admin" onclick="showPage('admin')">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m0 0v4h10v-4M7 7V3h10v4" />
@@ -1199,6 +1201,13 @@
          <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Surat Rekomendasi Kegiatan</h4>
          <p style="color: #6b7280; font-size: 13px;">Lomba &amp; kegiatan (kolektif / pribadi)</p>
         </div>
+        <div class="menu-card" onclick="openSuratForm('tugas')">
+         <div class="icon-box" style="background: #e0f2fe;">
+          <svg width="24" height="24" fill="none" stroke="#0284c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>
+         </div>
+         <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Surat Tugas</h4>
+         <p style="color: #6b7280; font-size: 13px;">Guru / Tenaga Kependidikan</p>
+        </div>
        </div>
       </div>
       <div id="suratForm" class="card hidden">
@@ -1239,6 +1248,19 @@
          <button type="button" onclick="clearSelectedStudents()" class="btn btn-secondary" style="min-width:140px;">Kosongkan Pilihan</button>
         </div>
         <div id="suratFilterInfo" style="margin-top:10px; font-size:13px; color:#166534;"></div>
+        </div>
+        <div id="stFields" class="hidden" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;padding:16px;margin-bottom:16px;">
+         <div class="form-group"><label class="form-label">Pilih Guru / Tendik (bisa lebih dari satu)</label>
+          <input id="stCari" class="input" placeholder="Ketik nama guru..." oninput="stCariGuru()" onfocus="stCariGuru()">
+          <div id="stHasil" style="max-height:200px;overflow:auto;margin-top:6px;"></div>
+          <div id="stTerpilih" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;"></div>
+         </div>
+         <div class="form-group"><label class="form-label">Nama Kegiatan / Tugas</label>
+          <input id="stKegiatan" class="input" placeholder="Contoh: Pendamping Lomba MTQ Tingkat Kabupaten"></div>
+         <div class="form-group"><label class="form-label">Hari / Tanggal Kegiatan</label>
+          <input id="stWaktu" class="input" placeholder="Contoh: Senin s.d. Rabu, 12 - 14 Oktober 2026"></div>
+         <div class="form-group"><label class="form-label">Tempat Kegiatan</label>
+          <input id="stTempat" class="input" placeholder="Contoh: Aula Kantor Bupati Aceh Tamiang"></div>
         </div>
         <div id="rkFields" class="hidden" style="background:#fff1f2; border:1px solid #fecdd3; border-radius:12px; padding:16px; margin-bottom:16px;">
          <div class="form-group"><label class="form-label">Jenis Rekomendasi Kegiatan</label>
@@ -1487,7 +1509,26 @@
        <div id="kartuContainer"></div>
       </div>
      </div>
-     <div id="pwaPage" class="hidden" style="display:block; align-self:flex-start; width:100%;">
+     <div id="guruPage" class="hidden">
+       <div class="card" style="margin-bottom:16px;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+         <input id="guruSearch" class="input" style="flex:1;min-width:200px;" placeholder="Cari nama, jabatan, penempatan..." oninput="renderGuru()">
+         <select id="guruFilter" class="input" style="max-width:220px;" onchange="renderGuru()"><option value="">Semua Penempatan</option></select>
+         <button class="btn btn-primary" onclick="guruUnduh('xls')">Unduh Excel</button>
+         <button class="btn btn-secondary" onclick="guruUnduh('pdf')">Unduh PDF</button>
+        </div>
+        <div id="guruSummary" style="margin-top:10px;color:#6b7280;font-size:14px;">Memuat data guru...</div>
+       </div>
+       <div class="card" style="padding:0;overflow:auto;">
+        <table id="guruTable" style="width:100%;border-collapse:collapse;font-size:14px;min-width:640px;"></table>
+       </div>
+      </div>
+      <div id="guruModal" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9999;align-items:center;justify-content:center;padding:16px;">
+       <div style="background:#fff;border-radius:18px;max-width:640px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.3);">
+        <div id="guruModalBody"></div>
+       </div>
+      </div>
+      <div id="pwaPage" class="hidden" style="display:block; align-self:flex-start; width:100%;">
       <div class="card" style="max-width:560px;margin:0 auto 40px;text-align:center;">
        <img src="" class="pf-logo-img" alt="Logo" style="width:84px;height:84px;object-fit:contain;border-radius:18px;margin:0 auto 14px;display:block;">
        <h3 style="font-size:19px;font-weight:700;color:#1f2937;margin-bottom:8px;">Unduh Aplikasi</h3>
@@ -1759,6 +1800,7 @@
         bootSet(90, 'Menyiapkan tampilan…');
         updateStatus(true, studentsData.length);
         renderDashboard();
+        loadGuru();
         bootSet(100, 'Selesai');
         bootDone();
       } catch (error) {
@@ -1834,7 +1876,7 @@
     
     // Page Navigation
     window.showPage = function(page) {
-      const pages = ['home', 'data', 'surat', 'admin', 'buku', 'kartu', 'kartu-ujian', 'pwa'];
+      const pages = ['home', 'data', 'surat', 'admin', 'buku', 'kartu', 'kartu-ujian', 'pwa', 'guru'];
       pages.forEach(p => {
         const el = document.getElementById(p + 'Page');
         if (el) el.classList.add('hidden');
@@ -1858,7 +1900,8 @@
         buku: ['Format Buku', 'Generate buku administrasi sekolah'],
         kartu: ['Kartu Santri', 'Cetak kartu identitas santri'],
         'kartu-ujian': ['Kartu Ujian', 'Cetak kartu ujian santri'],
-        pwa: ['Unduh Aplikasi', 'Pasang aplikasi di ponsel atau laptop']
+        pwa: ['Unduh Aplikasi', 'Pasang aplikasi di ponsel atau laptop'],
+        guru: ['Data Guru & Tendik', 'Database guru dan tenaga kependidikan']
       };
       
       document.getElementById('pageTitle').textContent = titles[page][0];
@@ -1940,7 +1983,7 @@
       } else if (type === 'rekomendasi') {
         document.getElementById('suratFormTitle').textContent = 'Surat Rekomendasi';
         mode.classList.add('hidden');
-        studentSelect.classList.add('hidden');
+        studentSelect.classList.remove('hidden');
         manualFields.classList.remove('hidden');
       } else if (type === 'rekom_kegiatan') {
         document.getElementById('suratFormTitle').textContent = 'Surat Rekomendasi Kegiatan';
@@ -1951,6 +1994,17 @@
         if (rk) rk.classList.remove('hidden');
         rkSumberChange();
         updateSelectedStudents();
+      }
+      const stF = document.getElementById('stFields');
+      if (stF) stF.classList.toggle('hidden', type !== 'tugas');
+      if (type === 'tugas') {
+        document.getElementById('suratFormTitle').textContent = 'Surat Tugas Guru / Tenaga Kependidikan';
+        mode.classList.add('hidden');
+        studentSelect.classList.add('hidden');
+        manualFields.classList.add('hidden');
+        stDipilih = []; stRender();
+        document.getElementById('stCari').value = '';
+        document.getElementById('stHasil').innerHTML = '';
       }
       if (type !== 'rekom_kegiatan') {
         const rk = document.getElementById('rkFields');
@@ -2001,7 +2055,22 @@
       
       let content = '';
       
-      if (currentSuratType === 'rekomendasi') {
+      if (currentSuratType === 'tugas') {
+        const kegiatan = (document.getElementById('stKegiatan').value || '').trim();
+        if (!stDipilih.length) { showInlineMessage('Silakan pilih minimal satu guru / tendik'); return; }
+        if (!kegiatan) { showInlineMessage('Silakan isi Nama Kegiatan / Tugas'); return; }
+        content = generateSuratTugas(stDipilih, { kegiatan, waktu: (document.getElementById('stWaktu').value||'').trim(), tempat: (document.getElementById('stTempat').value||'').trim() }, nomor, tanggal, ttd);
+      } else if (currentSuratType === 'rekomendasi') {
+        if (selectedStudents.length && !document.getElementById('manualNama').value) {
+          const st = selectedStudents[0], h = Object.keys(st);
+          const g = re => { const k = h.find(x => re.test(x.trim())); return k ? (st[k] || '').trim() : ''; };
+          document.getElementById('manualNama').value = g(/^nama(\s*(lengkap|siswa|peserta didik))?$/i) || st[h[3]] || '';
+          document.getElementById('manualNisn').value = g(/^nisn$/i);
+          document.getElementById('manualTtl').value = rkTTL(st);
+          document.getElementById('manualKelas').value = g(/^kelas|rombel/i);
+          document.getElementById('manualAlamat').value = g(/alamat/i);
+          document.getElementById('manualHp').value = g(/hp|telp|whatsapp|kontak/i);
+        }
         const manualData = {
           nama: document.getElementById('manualNama').value,
           nisn: document.getElementById('manualNisn').value,
@@ -2657,6 +2726,120 @@
       const l = kl ? (s[kl] || '').trim() : '';
       if (t || l) return [t, l].filter(Boolean).join(', ');
       return (s[h[24]] || '-').toString().trim() || '-';
+    }
+
+
+    // ===== DATA GURU & TENDIK =====
+    const CSV_GURU_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTj9NDKstrj0d9JH7PSMGc4X9ZP1JEarvqoXhF2BZcesqs52oW_jYNKd_fI832uYg/pub?gid=1431357261&single=true&output=csv';
+    let guruData = [], stDipilih = [];
+    const gEsc = v => String(v == null ? '' : v).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const gVal = (g, re) => { const k = Object.keys(g).find(x => re.test(x.trim())); return k ? (g[k] || '').trim() : ''; };
+    const gNama = g => gVal(g, /^nama$/i);
+    const gNIY = g => gVal(g, /nomor induk yayasan/i);
+    const gJab = g => gVal(g, /^jabatan$/i);
+    const gPen = g => gVal(g, /^penempatan$/i);
+    const gHP = g => gVal(g, /nomor hp/i);
+    const gWA = g => gHP(g).replace(/\D/g, '').replace(/^0/, '62');
+    const gFoto = g => {
+      const u = gVal(g, /foto/i); if (!u) return '';
+      const m = u.match(/[-\w]{25,}/); return /drive\.google/.test(u) && m ? 'https://lh3.googleusercontent.com/d/' + m[0] : u;
+    };
+    async function loadGuru() {
+      try {
+        const t = await fetchCSVText(CSV_GURU_URL, 'Data guru');
+        guruData = parseCSV(t).filter(g => gNama(g));
+      } catch (e) { console.warn('Data guru gagal dimuat', e); guruData = []; }
+      const sel = document.getElementById('guruFilter');
+      if (sel) sel.innerHTML = '<option value="">Semua Penempatan</option>' + [...new Set(guruData.map(gPen).filter(Boolean))].map(v => `<option>${gEsc(v)}</option>`).join('');
+      renderGuru();
+    }
+    function guruTersaring() {
+      const q = (document.getElementById('guruSearch')?.value || '').toLowerCase();
+      const f = document.getElementById('guruFilter')?.value || '';
+      return guruData.filter(g => (!f || gPen(g) === f) && (!q || [gNama(g), gJab(g), gPen(g), gNIY(g)].join(' ').toLowerCase().includes(q)));
+    }
+    window.renderGuru = function() {
+      const tb = document.getElementById('guruTable'); if (!tb) return;
+      const list = guruTersaring();
+      document.getElementById('guruSummary').textContent = guruData.length ? `Menampilkan ${list.length} dari ${guruData.length} guru & tendik. Klik baris untuk melihat detail lengkap.` : 'Data guru belum tersedia.';
+      const th = 'padding:12px 10px;text-align:left;background:#f1f5f9;color:#334155;font-weight:600;position:sticky;top:0;';
+      tb.innerHTML = `<thead><tr><th style="${th}">No</th><th style="${th}">Nama</th><th style="${th}">NIY</th><th style="${th}">Jabatan</th><th style="${th}">Penempatan</th><th style="${th}">L/P</th><th style="${th}">Kontak</th></tr></thead><tbody>` +
+        list.map((g, i) => {
+          const idx = guruData.indexOf(g), hp = gWA(g), jk = gVal(g, /jenis kelamin/i);
+          return `<tr style="border-top:1px solid #e5e7eb;cursor:pointer;" onclick="guruDetail(${idx})" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+            <td style="padding:10px;">${i + 1}</td><td style="padding:10px;font-weight:600;color:#0f766e;">${gEsc(gNama(g))}</td><td style="padding:10px;">${gEsc(gNIY(g) || '-')}</td>
+            <td style="padding:10px;">${gEsc(gJab(g) || '-')}</td><td style="padding:10px;">${gEsc(gPen(g) || '-')}</td><td style="padding:10px;">${/^p/i.test(jk) ? 'P' : jk ? 'L' : '-'}</td>
+            <td style="padding:10px;">${hp ? `<a href="https://wa.me/${hp}" target="_blank" onclick="event.stopPropagation()" style="color:#16a34a;font-weight:600;text-decoration:none;">WhatsApp</a>` : '-'}</td></tr>`;
+        }).join('') + '</tbody>';
+    };
+    window.guruDetail = function(i) {
+      const g = guruData[i]; if (!g) return;
+      const foto = gFoto(g), hp = gWA(g), ini = gEsc(gNama(g).charAt(0));
+      const rows = Object.keys(g).filter(k => !/foto/i.test(k) && (g[k] || '').trim()).map(k => `<div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed #e5e7eb;font-size:14px;"><div style="width:42%;color:#64748b;">${gEsc(k.trim())}</div><div style="flex:1;color:#0f172a;font-weight:500;word-break:break-word;">${gEsc(g[k])}</div></div>`).join('');
+      document.getElementById('guruModalBody').innerHTML = `
+        <div style="background:linear-gradient(135deg,#0f766e,#14b8a6);padding:26px 20px;text-align:center;color:#fff;border-radius:18px 18px 0 0;position:relative;">
+          <button onclick="document.getElementById('guruModal').style.display='none'" style="position:absolute;right:14px;top:12px;background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;">&times;</button>
+          <div style="width:96px;height:96px;border-radius:50%;margin:0 auto 10px;background:rgba(255,255,255,.2);border:3px solid #fff;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;">
+            ${foto ? `<img src="${gEsc(foto)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.outerHTML='${ini}'">` : ini}</div>
+          <div style="font-size:18px;font-weight:700;">${gEsc(gNama(g))}</div>
+          <div style="opacity:.9;font-size:14px;">${gEsc(gJab(g) || '-')} &middot; ${gEsc(gPen(g) || '-')}</div>
+          ${hp ? `<a href="https://wa.me/${hp}" target="_blank" style="display:inline-block;margin-top:12px;background:#fff;color:#0f766e;padding:8px 18px;border-radius:999px;font-weight:600;text-decoration:none;font-size:14px;">Hubungi via WhatsApp</a>` : ''}
+        </div><div style="padding:16px 22px 22px;">${rows}</div>`;
+      document.getElementById('guruModal').style.display = 'flex';
+    };
+    window.guruUnduh = function(fmt) {
+      const list = guruTersaring();
+      if (!list.length) { alert('Tidak ada data guru untuk diunduh.'); return; }
+      if (fmt === 'xls') {
+        const keys = Object.keys(list[0]).filter(k => !/foto/i.test(k));
+        const tbl = `<table border="1" style="border-collapse:collapse;font-family:Arial;font-size:11px;"><thead><tr style="background:#d1fae5;font-weight:bold;">${keys.map(k => `<th>${gEsc(k.trim())}</th>`).join('')}</tr></thead><tbody>${list.map(g => `<tr>${keys.map(k => `<td style="mso-number-format:'\\@';">${gEsc(g[k])}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+        const html = `<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="utf-8"></head><body><h3>Data Guru dan Tendik - ${gEsc(PROFIL.namaSekolah)}</h3>${tbl}</body></html>`;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob(['\ufeff' + html], { type: 'application/vnd.ms-excel;charset=utf-8;' }));
+        a.download = 'Data_Guru_Tendik.xls'; document.body.appendChild(a); a.click(); a.remove();
+      } else {
+        const ks = ['Nama', 'Nomor Induk Yayasan', 'Jabatan', 'Penempatan', 'TMT', 'Nomor HP'];
+        const kk = ks.map(x => Object.keys(list[0]).find(k => k.trim().toLowerCase() === x.toLowerCase()));
+        const t2 = `<table><thead><tr><th>No</th>${ks.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${list.map((g, i) => `<tr><td style="text-align:center">${i + 1}</td>${kk.map(k => `<td>${gEsc(k ? g[k] : '')}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+        openPrintWindow(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Data Guru dan Tendik</title><style>@page{size:A4 landscape;margin:1cm}body{font-family:'Times New Roman',serif;font-size:12px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #000;padding:5px}th{background:#e5e7eb}h3{text-align:center}</style></head><body>${getKopSurat()}<h3>DATA GURU DAN TENAGA KEPENDIDIKAN</h3>${t2}</body></html>`);
+      }
+    };
+    // ===== SURAT TUGAS =====
+    window.stCariGuru = function() {
+      const q = document.getElementById('stCari').value.toLowerCase().trim(), box = document.getElementById('stHasil');
+      if (!guruData.length) { box.innerHTML = '<div style="padding:8px;color:#dc2626;font-size:13px;">Data guru belum dimuat.</div>'; return; }
+      const list = guruData.filter(g => !q || gNama(g).toLowerCase().includes(q)).slice(0, 30);
+      box.innerHTML = list.map(g => `<div onclick="stPilih(${guruData.indexOf(g)})" style="padding:8px 10px;border:1px solid #e0f2fe;border-radius:8px;margin-bottom:4px;cursor:pointer;background:#fff;font-size:14px;"><b>${gEsc(gNama(g))}</b> <span style="color:#64748b;">- ${gEsc(gJab(g) || '-')}</span></div>`).join('') || '<div style="padding:8px;color:#64748b;font-size:13px;">Tidak ditemukan.</div>';
+    };
+    window.stPilih = function(i) { const g = guruData[i]; if (g && !stDipilih.includes(g)) stDipilih.push(g); stRender(); };
+    window.stHapus = function(i) { stDipilih.splice(i, 1); stRender(); };
+    function stRender() {
+      const el = document.getElementById('stTerpilih'); if (!el) return;
+      el.innerHTML = stDipilih.map((g, i) => `<span style="background:#0284c7;color:#fff;padding:5px 10px;border-radius:999px;font-size:13px;">${gEsc(gNama(g))} <b style="cursor:pointer;margin-left:4px;" onclick="stHapus(${i})">&times;</b></span>`).join('');
+    }
+    function generateSuratTugas(list, info, nomor, tanggal, ttd) {
+      const rows = list.map((g, i) => `<tr><td style="text-align:center;">${i + 1}</td><td>${gEsc(gNama(g))}</td><td style="text-align:center;">${gEsc(gNIY(g) || '-')}</td><td>${gEsc(gJab(g) || '-')}</td></tr>`).join('');
+      return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Surat Tugas</title><style>
+        @page { size: 8.5in 13in; margin: 1cm 1.5cm; }
+        body { font-family: 'Times New Roman', serif; font-size: 12pt; line-height: 1.6; color: #000; }
+        .judul { text-align: center; margin: 10px 0 18px; } .judul h3 { margin: 0; text-decoration: underline; font-size: 14pt; letter-spacing: 1px; }
+        table.data { width: 100%; border-collapse: collapse; margin: 8px 0 14px; } table.data th, table.data td { border: 1px solid #000; padding: 5px 8px; }
+        table.data th { background: #f1f5f9; } table.id td { padding: 2px 6px; vertical-align: top; } p { text-align: justify; margin: 6px 0; }
+      </style></head><body>
+        ${getKopSurat()}
+        <div class="judul"><h3>SURAT TUGAS</h3><div>Nomor : ${gEsc(nomor)}</div></div>
+        <p>Yang bertanda tangan di bawah ini:</p>
+        <table class="id" style="margin-left:20px;"><tr><td style="width:130px;">Nama</td><td>:</td><td><b>${gEsc(PROFIL.kepala)}</b></td></tr>
+          <tr><td>Jabatan</td><td>:</td><td>Kepala Sekolah</td></tr><tr><td>Unit Kerja</td><td>:</td><td>${gEsc(PROFIL.namaSekolah)}</td></tr></table>
+        <p>Dengan ini menugaskan Guru / Tenaga Kependidikan sebagai berikut:</p>
+        <table class="data"><thead><tr><th style="width:40px;">No</th><th>Nama</th><th style="width:150px;">NIY</th><th>Jabatan</th></tr></thead><tbody>${rows}</tbody></table>
+        <p>Untuk melaksanakan tugas pada kegiatan:</p>
+        <table class="id" style="margin-left:20px;"><tr><td style="width:130px;">Kegiatan</td><td>:</td><td><b>${gEsc(info.kegiatan)}</b></td></tr>
+          <tr><td>Hari / Tanggal</td><td>:</td><td>${gEsc(info.waktu || '....................................')}</td></tr>
+          <tr><td>Tempat</td><td>:</td><td>${gEsc(info.tempat || '....................................')}</td></tr></table>
+        <p>Demikian surat tugas ini dibuat untuk dapat dilaksanakan dengan penuh tanggung jawab dan melaporkan hasilnya setelah kegiatan selesai.</p>
+        ${getTTD(ttd, tanggal)}<div style="clear:both;"></div>
+      </body></html>`;
     }
 
     function generateSuratRekomKegiatan(students, info, nomor, tanggal, ttd, mode) {
