@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="id" class="h-full">
  <head>
@@ -1205,7 +1207,56 @@
          </div>
          <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Surat Tugas</h4>
          <p style="color: #6b7280; font-size: 13px;">Guru / Tenaga Kependidikan</p>
+         </div>
+        <div class="menu-card" onclick="toggleAgenda()">
+         <div class="icon-box" style="background: #ecfccb;">
+          <svg width="24" height="24" fill="none" stroke="#65a30d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 4.5z"/><path d="M8 7h8M8 11h5"/></svg>
+         </div>
+         <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Agenda Surat</h4>
+         <p style="color: #6b7280; font-size: 13px;">Catatan Surat Masuk &amp; Keluar</p>
         </div>
+       </div>
+      </div>
+      <div id="agendaPanel" class="card hidden" style="margin-bottom: 24px;">
+       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+        <h3 style="font-size:18px; font-weight:600; color:#1f2937;">Agenda Surat Masuk &amp; Keluar</h3>
+        <button onclick="toggleAgenda()" style="background:none; border:none; color:#9ca3af; cursor:pointer; font-size:20px;">&times;</button>
+       </div>
+       <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:14px 16px; margin-bottom:16px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px;">
+         <div style="font-size:12px; color:#166534; font-weight:600;">NOMOR SURAT KELUAR TERAKHIR</div>
+         <div id="agendaNomorTerakhir" style="font-size:16px; font-weight:700; color:#14532d;">-</div>
+        </div>
+        <button type="button" onclick="agendaRefresh(true)" title="Muat ulang" style="background:#fff; border:1px solid #bbf7d0; border-radius:8px; padding:8px 10px; cursor:pointer; color:#16a34a;">
+         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+        </button>
+        <button type="button" onclick="agendaSalinNomor()" class="btn btn-primary" style="padding:8px 14px; font-size:13px;">Salin Nomor</button>
+       </div>
+       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-bottom:12px;">
+        <div><label class="form-label" style="font-size:13px;">Nomor Surat</label><input id="agNomor" class="input" placeholder="400.3.5.08/219/.../2026"></div>
+        <div><label class="form-label" style="font-size:13px;">Tanggal</label><input id="agTanggal" type="date" class="input"></div>
+        <div><label class="form-label" style="font-size:13px;">Pemohon / Pengirim</label><input id="agPemohon" class="input" placeholder="Nama pemohon / pengirim"></div>
+        <div><label class="form-label" style="font-size:13px;">Jenis Surat</label><select id="agJenis" class="input"><option value="Keluar">Keluar</option><option value="Masuk">Masuk</option></select></div>
+        <div style="grid-column:1/-1;"><label class="form-label" style="font-size:13px;">Perihal / Keterangan</label><input id="agPerihal" class="input" placeholder="Contoh: Surat Rekomendasi Kegiatan Lomba Tahfizh"></div>
+       </div>
+       <button type="button" onclick="agendaTambah()" class="btn btn-primary" style="width:100%; margin-bottom:16px;">+ Simpan ke Agenda</button>
+       <div style="display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
+        <select id="agFilter" class="input" style="max-width:160px;" onchange="agendaRender()"><option value="">Semua</option><option value="Masuk">Masuk</option><option value="Keluar">Keluar</option></select>
+        <input id="agCari" class="input" style="flex:1; min-width:160px;" placeholder="Cari nomor / pemohon / perihal..." oninput="agendaRender()">
+       </div>
+       <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+         <thead><tr style="background:#f9fafb; text-align:left;">
+          <th style="padding:8px; border:1px solid #e5e7eb;">No</th>
+          <th style="padding:8px; border:1px solid #e5e7eb;">Nomor Surat</th>
+          <th style="padding:8px; border:1px solid #e5e7eb;">Tanggal</th>
+          <th style="padding:8px; border:1px solid #e5e7eb;">Pemohon / Pengirim</th>
+          <th style="padding:8px; border:1px solid #e5e7eb;">Jenis</th>
+          <th style="padding:8px; border:1px solid #e5e7eb;">Perihal</th>
+          <th style="padding:8px; border:1px solid #e5e7eb; width:60px;"></th>
+         </tr></thead>
+         <tbody id="agendaTbody"></tbody>
+        </table>
        </div>
       </div>
       <div id="suratForm" class="card hidden">
@@ -1218,7 +1269,15 @@
         <div class="radio-group"><label class="radio-label"> <input type="radio" name="mode" value="pribadi" checked> <span>Pribadi (per siswa, bisa banyak)</span> </label> <label class="radio-label"> <input type="radio" name="mode" value="kolektif"> <span>Kolektif</span> </label>
         </div>
        </div>
-       <div class="form-group"><label class="form-label">Nomor Surat</label> <input type="text" id="nomorSurat" class="input" placeholder="Contoh: 001/SK/I/2026">
+       <div class="form-group"><label class="form-label">Nomor Surat</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+         <input type="text" id="nomorSurat" class="input" placeholder="Contoh: 001/SK/I/2026" style="flex:1;">
+         <button type="button" onclick="agendaRefresh(true)" title="Cek nomor surat keluar terakhir" style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:9px 10px; cursor:pointer; color:#16a34a; flex-shrink:0;">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+         </button>
+         <button type="button" onclick="agendaIsiNomorTerakhir()" title="Salin nomor terakhir ke kolom ini" style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:9px 12px; cursor:pointer; color:#166534; font-size:12px; font-weight:600; flex-shrink:0;">Tempel Terakhir</button>
+        </div>
+        <div id="nomorTerakhirInfo" style="font-size:12px; color:#166534; margin-top:4px;"></div>
        </div>
        <div class="form-group"><label class="form-label">Tanggal Surat</label> <input type="date" id="tanggalSurat" class="input">
        </div>
@@ -1259,6 +1318,10 @@
           <input id="stWaktu" class="input" placeholder="Contoh: Senin s.d. Rabu, 12 - 14 Oktober 2026"></div>
          <div class="form-group"><label class="form-label">Tempat Kegiatan</label>
           <input id="stTempat" class="input" placeholder="Contoh: Aula Kantor Bupati Aceh Tamiang"></div>
+         <div class="form-group"><label class="form-label">Dasar Surat (opsional, isi manual)</label>
+          <textarea id="stDasar" class="input" placeholder="Contoh: Surat Pemanggilan Peserta, Nomor: 0887/B/B7.7/GT.02.00/2026, Tentang Pelatihan ..."></textarea></div>
+         <div class="form-group"><label class="form-label">NIK / NIP Kepala Sekolah (opsional)</label>
+          <input id="stNikKepala" class="input" placeholder="Contoh: 1116046612770001"></div>
         </div>
         <div id="rkFields" class="hidden" style="background:#fff1f2; border:1px solid #fecdd3; border-radius:12px; padding:16px; margin-bottom:16px;">
          <div class="form-group"><label class="form-label">Jenis Rekomendasi Kegiatan</label>
@@ -2057,7 +2120,7 @@
         const kegiatan = (document.getElementById('stKegiatan').value || '').trim();
         if (!stDipilih.length) { showInlineMessage('Silakan pilih minimal satu guru / tendik'); return; }
         if (!kegiatan) { showInlineMessage('Silakan isi Nama Kegiatan / Tugas'); return; }
-        content = generateSuratTugas(stDipilih, { kegiatan, waktu: (document.getElementById('stWaktu').value||'').trim(), tempat: (document.getElementById('stTempat').value||'').trim() }, nomor, tanggal, ttd);
+        content = generateSuratTugas(stDipilih, { kegiatan, waktu: (document.getElementById('stWaktu').value||'').trim(), tempat: (document.getElementById('stTempat').value||'').trim(), dasar: (document.getElementById('stDasar').value||'').trim(), nikKepala: (document.getElementById('stNikKepala').value||'').trim() }, nomor, tanggal, ttd);
       } else if (currentSuratType === 'rekomendasi') {
         if (selectedStudents.length && !document.getElementById('manualNama').value) {
           const st = selectedStudents[0], h = Object.keys(st);
@@ -2100,9 +2163,19 @@
           content = generateSuratPindahSekolah(selectedStudents[0], nomor, tanggal, ttd);
         } else if (currentSuratType === 'permohonan_pindah') {
           content = generateSuratPermohonanPindah(selectedStudents[0], tanggal);
+        } else if (currentSuratType === 'rekom_kegiatan') {
+          const jenis = (document.getElementById('rkJenis').value || '').trim();
+          const kegiatan = (document.getElementById('rkKegiatan').value || '').trim();
+          const tempat = (document.getElementById('rkTempat').value || '').trim();
+          if (!kegiatan) {
+            showInlineMessage('Silakan isi Nama Kegiatan terlebih dahulu');
+            return;
+          }
+          content = generateSuratRekomKegiatan(selectedStudents, { jenis, kegiatan, tempat }, nomor, tanggal, ttd, mode);
         }
       }
       
+      if (!content) { showInlineMessage('Surat belum bisa dibuat. Periksa kembali isiannya.'); return; }
       openPrintWindow(content);
     }
     
@@ -2285,72 +2358,6 @@
       }).join('');
 
       if (typeof updateSuratFilterInfo === 'function') updateSuratFilterInfo();
-    }
-    
-    // Generate Surat
-    function generateSurat() {
-      const nomor = document.getElementById('nomorSurat').value || '......./....../....../' + new Date().getFullYear();
-      const ttd = document.querySelector('input[name="ttd"]:checked').value;
-      const mode = document.querySelector('input[name="mode"]:checked')?.value || 'pribadi';
-      
-      const tanggalInput = document.getElementById('tanggalSurat').value;
-      let tanggal;
-      
-      if (tanggalInput) {
-        const date = new Date(tanggalInput);
-        tanggal = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-      } else {
-        const today = new Date();
-        tanggal = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-      }
-      
-      let content = '';
-      
-      if (currentSuratType === 'rekomendasi') {
-        const manualData = {
-          nama: document.getElementById('manualNama').value,
-          nisn: document.getElementById('manualNisn').value,
-          ttl: document.getElementById('manualTtl').value,
-          kelas: document.getElementById('manualKelas').value,
-          alamat: document.getElementById('manualAlamat').value,
-          hp: document.getElementById('manualHp').value
-        };
-        
-        if (!manualData.nama || !manualData.nisn) {
-          showInlineMessage('Silakan lengkapi minimal Nama dan NISN');
-          return;
-        }
-        
-        content = generateSuratRekomendasi(manualData, nomor, tanggal, ttd);
-      } else {
-        if (selectedStudents.length === 0) {
-          showInlineMessage('Silakan pilih minimal satu siswa');
-          return;
-        }
-        
-        if (currentSuratType === 'aktif') {
-          if (mode === 'kolektif') {
-            content = generateSuratAktifKolektif(nomor, tanggal, ttd);
-          } else {
-            content = generateSuratAktifPribadiBanyak(selectedStudents, nomor, tanggal, ttd);
-          }
-        } else if (currentSuratType === 'pindah_sekolah') {
-          content = generateSuratPindahSekolah(selectedStudents[0], nomor, tanggal, ttd);
-        } else if (currentSuratType === 'permohonan_pindah') {
-          content = generateSuratPermohonanPindah(selectedStudents[0], tanggal);
-        } else if (currentSuratType === 'rekom_kegiatan') {
-          const jenis = (document.getElementById('rkJenis').value || '').trim();
-          const kegiatan = (document.getElementById('rkKegiatan').value || '').trim();
-          const tempat = (document.getElementById('rkTempat').value || '').trim();
-          if (!kegiatan) {
-            showInlineMessage('Silakan isi Nama Kegiatan terlebih dahulu');
-            return;
-          }
-          content = generateSuratRekomKegiatan(selectedStudents, { jenis, kegiatan, tempat }, nomor, tanggal, ttd, mode);
-        }
-      }
-      
-      openPrintWindow(content);
     }
     
     function showInlineMessage(message) {
@@ -2729,6 +2736,100 @@
 
     // ===== DATA GURU & TENDIK =====
     const CSV_GURU_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTj9NDKstrj0d9JH7PSMGc4X9ZP1JEarvqoXhF2BZcesqs52oW_jYNKd_fI832uYg/pub?gid=1431357261&single=true&output=csv';
+
+    // 4. AGENDA_API_URL : URL Web App Google Apps Script untuk agenda surat
+    //    masuk/keluar (opsional). Kosongkan ('') untuk menyimpan hanya di
+    //    perangkat ini (localStorage). Lihat file apps_script_agenda_surat.txt
+    const AGENDA_API_URL = 'https://script.google.com/macros/s/AKfycbw2x-lqhBgmh2J9Z1HSIPuCXCupkqmTbEBF3fcna9R4KZPtpLNYBWk8GRO6i0eY5ZI/exec';
+
+    // ===== Agenda Surat Masuk & Keluar =====
+    let agendaData = [];
+    try { agendaData = JSON.parse(localStorage.getItem('agendaSurat') || '[]'); } catch (e) { agendaData = []; }
+
+    function agendaSimpan() {
+      localStorage.setItem('agendaSurat', JSON.stringify(agendaData));
+      if (AGENDA_API_URL) {
+        const terakhir = agendaData[agendaData.length - 1];
+        fetch(AGENDA_API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ action: 'add', row: terakhir }) }).catch(() => {});
+      }
+    }
+
+    window.toggleAgenda = function() {
+      const p = document.getElementById('agendaPanel');
+      p.classList.toggle('hidden');
+      if (!p.classList.contains('hidden')) { agendaRender(); agendaRefresh(false); p.scrollIntoView({ behavior: 'smooth' }); }
+    };
+
+    window.agendaTambah = function() {
+      const nomor = (document.getElementById('agNomor').value || '').trim();
+      const tanggal = document.getElementById('agTanggal').value;
+      const pemohon = (document.getElementById('agPemohon').value || '').trim();
+      const jenis = document.getElementById('agJenis').value;
+      const perihal = (document.getElementById('agPerihal').value || '').trim();
+      if (!nomor) { showInlineMessage('Nomor surat wajib diisi'); return; }
+      agendaData.push({ nomor, tanggal, pemohon, jenis, perihal, waktu: Date.now() });
+      agendaSimpan();
+      document.getElementById('agNomor').value = ''; document.getElementById('agPemohon').value = ''; document.getElementById('agPerihal').value = '';
+      agendaRender(); agendaRefresh(false);
+    };
+
+    window.agendaHapus = function(i) {
+      if (!confirm('Hapus catatan surat ini?')) return;
+      agendaData.splice(i, 1); agendaSimpan(); agendaRender(); agendaRefresh(false);
+    };
+
+    window.agendaRender = function() {
+      const f = document.getElementById('agFilter').value;
+      const q = (document.getElementById('agCari').value || '').toLowerCase();
+      const tb = document.getElementById('agendaTbody');
+      const list = agendaData.map((r, i) => ({ r, i })).filter(x =>
+        (!f || x.r.jenis === f) &&
+        (!q || (x.r.nomor + ' ' + x.r.pemohon + ' ' + x.r.perihal).toLowerCase().includes(q)));
+      tb.innerHTML = list.length ? list.map((x, n) => `
+        <tr>
+          <td style="padding:7px; border:1px solid #e5e7eb; text-align:center;">${n + 1}</td>
+          <td style="padding:7px; border:1px solid #e5e7eb;">${gEsc(x.r.nomor)}</td>
+          <td style="padding:7px; border:1px solid #e5e7eb;">${gEsc(x.r.tanggal || '-')}</td>
+          <td style="padding:7px; border:1px solid #e5e7eb;">${gEsc(x.r.pemohon || '-')}</td>
+          <td style="padding:7px; border:1px solid #e5e7eb; text-align:center;"><span style="padding:2px 10px; border-radius:999px; font-size:12px; font-weight:600; ${x.r.jenis === 'Masuk' ? 'background:#dbeafe; color:#1d4ed8;' : 'background:#dcfce7; color:#166534;'}">${x.r.jenis}</span></td>
+          <td style="padding:7px; border:1px solid #e5e7eb;">${gEsc(x.r.perihal || '-')}</td>
+          <td style="padding:7px; border:1px solid #e5e7eb; text-align:center;"><button onclick="agendaHapus(${x.i})" style="background:none; border:none; color:#dc2626; cursor:pointer; font-size:15px;" title="Hapus">&times;</button></td>
+        </tr>`).join('') : '<tr><td colspan="7" style="padding:14px; text-align:center; color:#9ca3af; border:1px solid #e5e7eb;">Belum ada catatan surat.</td></tr>';
+    };
+
+    function agendaNomorKeluarTerakhir() {
+      const keluar = agendaData.filter(r => r.jenis === 'Keluar');
+      return keluar.length ? keluar[keluar.length - 1].nomor : null;
+    }
+
+    window.agendaRefresh = function(umumkan) {
+      const tampil = (txt) => {
+        const el = document.getElementById('agendaNomorTerakhir'); if (el) el.textContent = txt || 'Belum ada surat keluar tercatat';
+        const info = document.getElementById('nomorTerakhirInfo'); if (info) info.textContent = txt ? 'Nomor surat keluar terakhir: ' + txt : '';
+      };
+      if (AGENDA_API_URL) {
+        fetch(AGENDA_API_URL + '?action=last').then(r => r.json()).then(d => {
+          if (d && d.nomor) { tampil(d.nomor); return; }
+          tampil(agendaNomorKeluarTerakhir());
+        }).catch(() => tampil(agendaNomorKeluarTerakhir()));
+      } else {
+        tampil(agendaNomorKeluarTerakhir());
+      }
+      if (umumkan) showInlineMessage('Nomor surat terakhir diperbarui');
+    };
+
+    window.agendaSalinNomor = function() {
+      const n = agendaNomorKeluarTerakhir();
+      if (!n) { showInlineMessage('Belum ada nomor surat keluar'); return; }
+      navigator.clipboard?.writeText(n).then(() => showInlineMessage('Nomor tersalin: ' + n));
+    };
+
+    window.agendaIsiNomorTerakhir = function() {
+      const n = agendaNomorKeluarTerakhir();
+      if (!n) { showInlineMessage('Belum ada nomor surat keluar tercatat'); return; }
+      document.getElementById('nomorSurat').value = n;
+      showInlineMessage('Nomor terakhir ditempel ke kolom nomor surat');
+    };
     let guruData = [], stDipilih = [];
     const gEsc = v => String(v == null ? '' : v).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
     const gVal = (g, re) => { const k = Object.keys(g).find(x => re.test(x.trim())); return k ? (g[k] || '').trim() : ''; };
@@ -2816,25 +2917,33 @@
       el.innerHTML = stDipilih.map((g, i) => `<span style="background:#0284c7;color:#fff;padding:5px 10px;border-radius:999px;font-size:13px;">${gEsc(gNama(g))} <b style="cursor:pointer;margin-left:4px;" onclick="stHapus(${i})">&times;</b></span>`).join('');
     }
     function generateSuratTugas(list, info, nomor, tanggal, ttd) {
-      const rows = list.map((g, i) => `<tr><td style="text-align:center;">${i + 1}</td><td>${gEsc(gNama(g))}</td><td style="text-align:center;">${gEsc(gNIY(g) || '-')}</td><td>${gEsc(gJab(g) || '-')}</td></tr>`).join('');
+      const blokGuru = list.map((g, i) => `
+        <table class="id" style="margin-left:24px; margin-bottom:10px;">
+          <tr><td style="width:30px; vertical-align:top;"><b>${i + 1}.</b></td><td style="width:110px;">Nama</td><td style="width:10px;">:</td><td><b>${gEsc(gNama(g))}</b></td></tr>
+          <tr><td></td><td>NIK / NIY</td><td>:</td><td>${gEsc(gNIY(g) || '-')}</td></tr>
+          <tr><td></td><td>Jabatan</td><td>:</td><td>${gEsc(gJab(g) || '-')}</td></tr>
+          <tr><td></td><td>Unit Kerja</td><td>:</td><td>${gEsc(PROFIL.namaSekolah)}</td></tr>
+        </table>`).join('');
+      const tujuan = `Untuk mengikuti ${info.kegiatan}${info.waktu ? ', pada ' + info.waktu : ''}${info.tempat ? ', bertempat di ' + info.tempat : ''}.`;
       return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Surat Tugas</title><style>
         @page { size: 8.5in 13in; margin: 1cm 1.5cm; }
         body { font-family: 'Times New Roman', serif; font-size: 12pt; line-height: 1.6; color: #000; }
         .judul { text-align: center; margin: 10px 0 18px; } .judul h3 { margin: 0; text-decoration: underline; font-size: 14pt; letter-spacing: 1px; }
-        table.data { width: 100%; border-collapse: collapse; margin: 8px 0 14px; } table.data th, table.data td { border: 1px solid #000; padding: 5px 8px; }
-        table.data th { background: #f1f5f9; } table.id td { padding: 2px 6px; vertical-align: top; } p { text-align: justify; margin: 6px 0; }
+        table.id { border-collapse: collapse; } table.id td { padding: 2px 6px; vertical-align: top; } p { text-align: justify; margin: 8px 0; }
       </style></head><body>
         ${getKopSurat()}
         <div class="judul"><h3>SURAT TUGAS</h3><div>Nomor : ${gEsc(nomor)}</div></div>
+        ${info.dasar ? `<p><b>Dasar</b> : ${gEsc(info.dasar)}</p>` : ''}
         <p>Yang bertanda tangan di bawah ini:</p>
-        <table class="id" style="margin-left:20px;"><tr><td style="width:130px;">Nama</td><td>:</td><td><b>${gEsc(PROFIL.kepala)}</b></td></tr>
-          <tr><td>Jabatan</td><td>:</td><td>Kepala Sekolah</td></tr><tr><td>Unit Kerja</td><td>:</td><td>${gEsc(PROFIL.namaSekolah)}</td></tr></table>
-        <p>Dengan ini menugaskan Guru / Tenaga Kependidikan sebagai berikut:</p>
-        <table class="data"><thead><tr><th style="width:40px;">No</th><th>Nama</th><th style="width:150px;">NIY</th><th>Jabatan</th></tr></thead><tbody>${rows}</tbody></table>
-        <p>Untuk melaksanakan tugas pada kegiatan:</p>
-        <table class="id" style="margin-left:20px;"><tr><td style="width:130px;">Kegiatan</td><td>:</td><td><b>${gEsc(info.kegiatan)}</b></td></tr>
-          <tr><td>Hari / Tanggal</td><td>:</td><td>${gEsc(info.waktu || '....................................')}</td></tr>
-          <tr><td>Tempat</td><td>:</td><td>${gEsc(info.tempat || '....................................')}</td></tr></table>
+        <table class="id" style="margin-left:24px;">
+          <tr><td style="width:110px;">Nama</td><td style="width:10px;">:</td><td><b>${gEsc(PROFIL.kepala)}</b></td></tr>
+          <tr><td>NIK / NIP</td><td>:</td><td>${gEsc(info.nikKepala || '-')}</td></tr>
+          <tr><td>Jabatan</td><td>:</td><td>Kepala Sekolah</td></tr>
+          <tr><td>Unit Kerja</td><td>:</td><td>${gEsc(PROFIL.namaSekolah)}</td></tr>
+        </table>
+        <p style="text-align:center; font-weight:bold; margin:16px 0 10px;">Menugaskan Kepada:</p>
+        ${blokGuru}
+        <p>${gEsc(tujuan)}</p>
         <p>Demikian surat tugas ini dibuat untuk dapat dilaksanakan dengan penuh tanggung jawab dan melaporkan hasilnya setelah kegiatan selesai.</p>
         ${getTTD(ttd, tanggal)}<div style="clear:both;"></div>
       </body></html>`;
