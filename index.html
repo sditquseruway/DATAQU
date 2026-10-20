@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="id" class="h-full">
  <head>
@@ -1071,7 +1069,7 @@
         <p>Dashboard administrasi <span id="heroSchool">sekolah</span>. Pantau data siswa, rombel, dan cari siswa dengan cepat.</p>
        </div>
        <div class="db-stat-grid">
-        <div class="db-stat">
+        <div class="db-stat" onclick="dbxTotal()" style="cursor:pointer;">
          <div class="db-ico" style="background:#dcfce7;color:#166534;">
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9.5" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /></svg>
          </div>
@@ -1089,17 +1087,23 @@
          </div>
          <div><b id="dbPerempuan">-</b><small>Perempuan</small></div>
         </div>
-        <div class="db-stat">
+        <div class="db-stat" id="dbStatTahfizh" onclick="dbxRombel('tahfizh')" style="cursor:pointer;">
          <div class="db-ico" style="background:#fef3c7;color:#a16207;">
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 1-2-1.5Z" /><path d="M8 7h7M8 11h7" /></svg>
          </div>
-         <div><b id="dbRombelTahfizh">-</b><small>Rombel Tahfizh</small></div>
+         <div><b id="dbRombelTahfizh">-</b><small id="dbLblTahfizh">Rombel Tahfizh</small></div>
         </div>
-        <div class="db-stat">
+        <div class="db-stat" onclick="dbxRombel('smp')" style="cursor:pointer;">
          <div class="db-ico" style="background:#ede9fe;color:#6d28d9;">
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13" /><path d="M10 21v-6h4v6" /></svg>
          </div>
-         <div><b id="dbRombelSmp">-</b><small>Rombel SMP / SD</small></div>
+         <div><b id="dbRombelSmp">-</b><small id="dbLblSmp">Rombel</small></div>
+        </div>
+        <div class="db-stat" onclick="dbxGuru()" style="cursor:pointer;">
+         <div class="db-ico" style="background:#ccfbf1;color:#0f766e;">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M2 8l10-5 10 5-10 5z"/><path d="M6 10.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.5"/></svg>
+         </div>
+         <div><b id="dbGuru">-</b><small>Guru &amp; Pegawai</small></div>
         </div>
        </div>
        <div class="db-panel">
@@ -1115,24 +1119,6 @@
          <div class="db-results hidden" id="dbSearchResult"></div>
         </div>
         <div id="dbStudentDetail"></div>
-       </div>
-       <div class="db-panel">
-        <div class="db-panel-h">
-         <svg width="20" height="20" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 1-2-1.5Z" /><path d="M8 7h7" /></svg>
-         <h3>Rombel Tahfizh</h3><span>klik untuk melihat detail</span>
-        </div>
-        <div class="rb-list" id="dbListTahfizh">
-         <p class="db-empty">Memuat data rombel...</p>
-        </div>
-       </div>
-       <div class="db-panel">
-        <div class="db-panel-h">
-         <svg width="20" height="20" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13" /></svg>
-         <h3>Rombel SMP / SD / Umum</h3><span>klik untuk melihat detail</span>
-        </div>
-        <div class="rb-list" id="dbListSmp">
-         <p class="db-empty">Memuat data rombel...</p>
-        </div>
        </div>
       </div><!-- Surat Page -->
      <div id="dataPage" class="hidden">
@@ -1162,6 +1148,13 @@
       <div class="card" style="margin-bottom: 24px;">
        <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 20px;">Pilih Jenis Surat</h3>
        <div class="menu-grid" id="suratMenu">
+        <div class="menu-card" onclick="toggleAgenda()">
+         <div class="icon-box" style="background: #ecfccb;">
+          <svg width="24" height="24" fill="none" stroke="#65a30d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 4.5z"/><path d="M8 7h8M8 11h5"/></svg>
+         </div>
+         <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Agenda Surat</h4>
+         <p style="color: #6b7280; font-size: 13px;">Catatan Surat Masuk &amp; Keluar</p>
+        </div>
         <div class="menu-card" onclick="openSuratForm('aktif')">
          <div class="icon-box" style="background: #dcfce7;">
           <svg width="24" height="24" fill="none" stroke="#16a34a" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -1208,19 +1201,12 @@
          <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Surat Tugas</h4>
          <p style="color: #6b7280; font-size: 13px;">Guru / Tenaga Kependidikan</p>
          </div>
-        <div class="menu-card" onclick="toggleAgenda()">
-         <div class="icon-box" style="background: #ecfccb;">
-          <svg width="24" height="24" fill="none" stroke="#65a30d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 4.5z"/><path d="M8 7h8M8 11h5"/></svg>
-         </div>
-         <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Agenda Surat</h4>
-         <p style="color: #6b7280; font-size: 13px;">Catatan Surat Masuk &amp; Keluar</p>
-        </div>
        </div>
       </div>
       <div id="agendaPanel" class="card hidden" style="margin-bottom: 24px;">
        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
         <h3 style="font-size:18px; font-weight:600; color:#1f2937;">Agenda Surat Masuk &amp; Keluar</h3>
-        <button onclick="toggleAgenda()" style="background:none; border:none; color:#9ca3af; cursor:pointer; font-size:20px;">&times;</button>
+        <div style="display:flex;gap:8px;"><button onclick="agendaMuat();agendaRefresh(true)" class="btn" style="background:#f0fdf4;color:#166534;padding:6px 12px;font-size:13px;">Muat Ulang</button><button onclick="toggleAgenda()" class="btn" style="background:#f1f5f9;color:#334155;padding:6px 12px;font-size:13px;">&larr; Kembali</button></div>
        </div>
        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:14px 16px; margin-bottom:16px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
         <div style="flex:1; min-width:200px;">
@@ -1253,7 +1239,7 @@
           <th style="padding:8px; border:1px solid #e5e7eb;">Pemohon / Pengirim</th>
           <th style="padding:8px; border:1px solid #e5e7eb;">Jenis</th>
           <th style="padding:8px; border:1px solid #e5e7eb;">Perihal</th>
-          <th style="padding:8px; border:1px solid #e5e7eb; width:60px;"></th>
+          <th style="padding:8px; border:1px solid #e5e7eb; width:110px;">Aksi</th>
          </tr></thead>
          <tbody id="agendaTbody"></tbody>
         </table>
@@ -1568,6 +1554,15 @@
        <div class="no-print" style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center;"><button onclick="closePreviewKartu()" class="btn btn-secondary">← Kembali</button> <button onclick="cetakKartu()" class="btn btn-primary" style="flex: 1;">Cetak Kartu</button>
        </div>
        <div id="kartuContainer"></div>
+      </div>
+     </div>
+     <div id="dbxPage" class="hidden">
+      <div class="card">
+       <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+        <button class="btn" onclick="dbxBack()" style="background:#f1f5f9;color:#334155;padding:8px 14px;">&larr; Kembali</button>
+        <h3 id="dbxTitle" style="font-size:18px;font-weight:700;color:#1f2937;"></h3>
+       </div>
+       <div id="dbxBody"></div>
       </div>
      </div>
      <div id="guruPage" class="hidden">
@@ -1937,7 +1932,7 @@
     
     // Page Navigation
     window.showPage = function(page) {
-      const pages = ['home', 'data', 'surat', 'admin', 'buku', 'kartu', 'kartu-ujian', 'pwa', 'guru'];
+      const pages = ['home', 'data', 'surat', 'admin', 'buku', 'kartu', 'kartu-ujian', 'pwa', 'guru', 'dbx'];
       pages.forEach(p => {
         const el = document.getElementById(p + 'Page');
         if (el) el.classList.add('hidden');
@@ -1962,7 +1957,8 @@
         kartu: ['Kartu Santri', 'Cetak kartu identitas santri'],
         'kartu-ujian': ['Kartu Ujian', 'Cetak kartu ujian santri'],
         pwa: ['Unduh Aplikasi', 'Pasang aplikasi di ponsel atau laptop'],
-        guru: ['Data Guru & Tendik', 'Database guru dan tenaga kependidikan']
+        guru: ['Data Guru & Tendik', 'Database guru dan tenaga kependidikan'],
+        dbx: ['Detail Dashboard', PROFIL.namaSekolah]
       };
       
       document.getElementById('pageTitle').textContent = titles[page][0];
@@ -1997,7 +1993,13 @@
     }
     
     // Surat Functions
+    function suratMenuTampil(on) {
+      const m = document.getElementById('suratMenu'); if (m) m.parentElement.classList.toggle('hidden', !on);
+      if (!on) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     window.openSuratForm = function(type) {
+      suratMenuTampil(false);
+      const ap = document.getElementById('agendaPanel'); if (ap) ap.classList.add('hidden');
       currentSuratType = type;
       selectedStudents = [];
       
@@ -2075,6 +2077,7 @@
     
     window.closeSuratForm = function() {
       document.getElementById('suratForm').classList.add('hidden');
+      suratMenuTampil(true);
       selectedStudents = [];
     }
     
@@ -2176,6 +2179,11 @@
       }
       
       if (!content) { showInlineMessage('Surat belum bisa dibuat. Periksa kembali isiannya.'); return; }
+      try {
+        const judul = (document.getElementById('suratFormTitle')?.textContent || 'Surat').trim();
+        const nm = (currentSuratType === 'tugas' ? (stDipilih || []).map(gNama) : (selectedStudents || []).map(x => x[Object.keys(x)[2]] || '')).filter(Boolean);
+        agendaCatat({ nomor: document.getElementById('nomorSurat').value || '-', tanggal: new Date().toISOString().slice(0, 10), pemohon: nm.slice(0, 3).join(', ') + (nm.length > 3 ? ' dkk' : ''), jenis: 'Keluar', perihal: judul, isi: content });
+      } catch (e) { console.warn(e); }
       openPrintWindow(content);
     }
     
@@ -2740,24 +2748,44 @@
     // 4. AGENDA_API_URL : URL Web App Google Apps Script untuk agenda surat
     //    masuk/keluar (opsional). Kosongkan ('') untuk menyimpan hanya di
     //    perangkat ini (localStorage). Lihat file apps_script_agenda_surat.txt
-    const AGENDA_API_URL = 'https://script.google.com/macros/s/AKfycbw2x-lqhBgmh2J9Z1HSIPuCXCupkqmTbEBF3fcna9R4KZPtpLNYBWk8GRO6i0eY5ZI/exec';
+    const AGENDA_API_URL = '';
 
     // ===== Agenda Surat Masuk & Keluar =====
     let agendaData = [];
     try { agendaData = JSON.parse(localStorage.getItem('agendaSurat') || '[]'); } catch (e) { agendaData = []; }
 
-    function agendaSimpan() {
-      localStorage.setItem('agendaSurat', JSON.stringify(agendaData));
-      if (AGENDA_API_URL) {
-        const terakhir = agendaData[agendaData.length - 1];
-        fetch(AGENDA_API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ action: 'add', row: terakhir }) }).catch(() => {});
-      }
+    function agendaLokal() { try { localStorage.setItem('agendaSurat', JSON.stringify(agendaData)); } catch (e) { /* penuh: buang isi surat lama */ agendaData.slice(0, -5).forEach(r => delete r.isi); try { localStorage.setItem('agendaSurat', JSON.stringify(agendaData)); } catch (_) {} } }
+    function agendaKirim(body) {
+      if (!AGENDA_API_URL) return;
+      fetch(AGENDA_API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(body) }).catch(() => {});
     }
+    function agendaSimpan() {
+      agendaLokal();
+      agendaKirim({ action: 'add', row: agendaData[agendaData.length - 1] });
+    }
+    function agendaCatat(row) { row.waktu = Date.now(); agendaData.push(row); agendaSimpan(); agendaRefresh(false); }
+    window.agendaMuat = function() {
+      if (!AGENDA_API_URL) return;
+      fetch(AGENDA_API_URL + '?action=all&_=' + Date.now()).then(r => r.json()).then(d => {
+        if (!d || !Array.isArray(d.rows)) return;
+        const lokal = new Map(agendaData.map(r => [String(r.waktu), r]));
+        agendaData = d.rows.map(r => { const l = lokal.get(String(r.waktu)); if (l && l.isi && !r.isi) r.isi = l.isi; return r; });
+        agendaLokal(); agendaRender(); agendaRefresh(false);
+      }).catch(() => {});
+    };
+    window.agendaLihat = function(i) {
+      const r = agendaData[i];
+      if (!r || !r.isi) { showInlineMessage('Isi surat tidak tersimpan untuk catatan ini'); return; }
+      openPrintWindow(r.isi);
+    };
 
     window.toggleAgenda = function() {
       const p = document.getElementById('agendaPanel');
       p.classList.toggle('hidden');
-      if (!p.classList.contains('hidden')) { agendaRender(); agendaRefresh(false); p.scrollIntoView({ behavior: 'smooth' }); }
+      const buka = !p.classList.contains('hidden');
+      document.getElementById('suratForm').classList.add('hidden');
+      suratMenuTampil(!buka);
+      if (buka) { agendaRender(); agendaMuat(); }
     };
 
     window.agendaTambah = function() {
@@ -2775,7 +2803,9 @@
 
     window.agendaHapus = function(i) {
       if (!confirm('Hapus catatan surat ini?')) return;
-      agendaData.splice(i, 1); agendaSimpan(); agendaRender(); agendaRefresh(false);
+      const r = agendaData.splice(i, 1)[0]; agendaLokal();
+      if (r) agendaKirim({ action: 'delete', waktu: r.waktu, nomor: r.nomor });
+      agendaRender(); agendaRefresh(false); showInlineMessage('Catatan surat dihapus');
     };
 
     window.agendaRender = function() {
@@ -2793,7 +2823,7 @@
           <td style="padding:7px; border:1px solid #e5e7eb;">${gEsc(x.r.pemohon || '-')}</td>
           <td style="padding:7px; border:1px solid #e5e7eb; text-align:center;"><span style="padding:2px 10px; border-radius:999px; font-size:12px; font-weight:600; ${x.r.jenis === 'Masuk' ? 'background:#dbeafe; color:#1d4ed8;' : 'background:#dcfce7; color:#166534;'}">${x.r.jenis}</span></td>
           <td style="padding:7px; border:1px solid #e5e7eb;">${gEsc(x.r.perihal || '-')}</td>
-          <td style="padding:7px; border:1px solid #e5e7eb; text-align:center;"><button onclick="agendaHapus(${x.i})" style="background:none; border:none; color:#dc2626; cursor:pointer; font-size:15px;" title="Hapus">&times;</button></td>
+          <td style="padding:7px; border:1px solid #e5e7eb; text-align:center;">${x.r.isi ? `<button onclick="agendaLihat(${x.i})" style="background:#dcfce7; border:none; color:#166534; border-radius:6px; padding:3px 8px; cursor:pointer; font-size:12px; margin-right:4px;">Lihat</button>` : ''}<button onclick="agendaHapus(${x.i})" style="background:none; border:none; color:#dc2626; cursor:pointer; font-size:15px;" title="Hapus">&times;</button></td>
         </tr>`).join('') : '<tr><td colspan="7" style="padding:14px; text-align:center; color:#9ca3af; border:1px solid #e5e7eb;">Belum ada catatan surat.</td></tr>';
     };
 
@@ -2851,6 +2881,7 @@
       const sel = document.getElementById('guruFilter');
       if (sel) sel.innerHTML = '<option value="">Semua Penempatan</option>' + [...new Set(guruData.map(gPen).filter(Boolean))].map(v => `<option>${gEsc(v)}</option>`).join('');
       renderGuru();
+      const dg = document.getElementById('dbGuru'); if (dg) dg.textContent = guruData.length;
     }
     function guruTersaring() {
       const q = (document.getElementById('guruSearch')?.value || '').toLowerCase();
@@ -4697,6 +4728,10 @@
       const smp = grupRombel(kolS);
       set('dbRombelTahfizh', tahfizh.length);
       set('dbRombelSmp', smp.length);
+      set('dbLblTahfizh', kolT || 'Rombel Tahfizh');
+      set('dbLblSmp', kolS || 'Rombel');
+      const st = document.getElementById('dbStatTahfizh'); if (st) st.style.display = tahfizh.length ? '' : 'none';
+      set('dbGuru', guruData.length || '-');
 
       const chip = (label, arr, jenis) => {
         const kolomWali = jenis === 'tahfizh' ? d.waliTahfizh : d.waliSmp;
@@ -4794,6 +4829,99 @@
         ${inner}</div>`;
       document.body.appendChild(wrap);
     }
+
+    /* ============ HALAMAN DETAIL DASHBOARD ============ */
+    let dbxKembali = null;
+    const dbxTh = 'padding:9px 8px;border:1px solid #e5e7eb;background:#f1f5f9;color:#334155;text-align:left;font-weight:600;';
+    const dbxTd = 'padding:8px;border:1px solid #e5e7eb;';
+    function dbxBuka(judul, html, kembali) {
+      dbxKembali = kembali || null;
+      showPage('dbx');
+      document.getElementById('dbxTitle').textContent = judul;
+      document.getElementById('dbxBody').innerHTML = html;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    window.dbxBack = function() { if (dbxKembali) dbxKembali(); else showPage('home'); };
+    const dbxLaki = s => /laki|^l$/i.test((s[dsCols().jk] || '').trim());
+    function dbxRingkas(items) {
+      return '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px;">' +
+        items.map(([k, v, c]) => `<div style="background:${c};border-radius:12px;padding:12px 14px;"><div style="font-size:12px;color:#475569;">${k}</div><div style="font-size:22px;font-weight:700;color:#0f172a;">${v}</div></div>`).join('') + '</div>';
+    }
+    function dbxTabel(head, rows) {
+      return `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr>${head.map(h => `<th style="${dbxTh}">${h}</th>`).join('')}</tr></thead><tbody>${rows.join('') || `<tr><td colspan="${head.length}" style="${dbxTd}text-align:center;color:#9ca3af;">Tidak ada data</td></tr>`}</tbody></table></div>`;
+    }
+    function dbxKol(jenis) {
+      const d = dbKolom();
+      const isi = (...l) => l.find(k => k && studentsData.some(s => (s[k] || '').trim())) || '';
+      const kolom = jenis === 'tahfizh' ? isi(d.rombelTahfizh) : isi(d.rombelSmp, d.kelasSmp);
+      const wali = jenis === 'tahfizh' ? d.waliTahfizh : d.waliSmp;
+      const h = d.all;
+      const lokasi = h.find(x => /lokasi|ruang/i.test(x) && (jenis === 'tahfizh' ? /tahfizh/i.test(x) : !/tahfizh/i.test(x))) || h.find(x => /lokasi|ruang/i.test(x)) || '';
+      return { kolom, wali, lokasi, d };
+    }
+    // 7. Rombel -> tabel guru/rombel
+    window.dbxRombel = function(jenis) {
+      const { kolom, wali, lokasi } = dbxKol(jenis);
+      const grup = grupRombel(kolom);
+      const rows = grup.map(([nm, arr], i) => {
+        const g = [...new Set(arr.map(s => (s[wali] || '').trim()).filter(Boolean))].join(', ') || '-';
+        const lok = lokasi ? [...new Set(arr.map(s => (s[lokasi] || '').trim()).filter(Boolean))].join(', ') : '';
+        return `<tr><td style="${dbxTd}text-align:center;">${i + 1}</td><td style="${dbxTd}font-weight:600;">${gEsc(g)}</td><td style="${dbxTd}">${gEsc(nm)}</td><td style="${dbxTd}">${gEsc(lok || '-')}</td>
+          <td style="${dbxTd}text-align:center;"><button class="btn btn-primary" style="padding:5px 12px;font-size:12px;" onclick="dbxRombelSiswa('${jenis}', ${JSON.stringify(nm).replace(/"/g, '&quot;')})">Lihat (${arr.length})</button></td></tr>`;
+      });
+      dbxBuka((kolom || 'Rombel') + ' - ' + grup.length + ' rombel', dbxTabel(['No', 'Nama Guru', 'Rombel', 'Lokasi', 'Keterangan'], rows));
+    };
+    window.dbxRombelSiswa = function(jenis, nama) {
+      const { kolom, wali, d } = dbxKol(jenis);
+      const c = dsCols();
+      const alamat = d.all.find(x => /^alamat/i.test(x)) || '';
+      const siswa = studentsData.filter(s => (s[kolom] || '').trim() === nama).sort((a, b) => (a[c.nama] || '').localeCompare(b[c.nama] || ''));
+      const lk = siswa.filter(dbxLaki).length;
+      const g = [...new Set(siswa.map(s => (s[wali] || '').trim()).filter(Boolean))].join(', ') || '-';
+      const rows = siswa.map((s, i) => {
+        const hp = s[d.hpAyah] || s[d.hpIbu] || s[d.hpFam] || '';
+        const wa = waNumber(hp);
+        return `<tr><td style="${dbxTd}text-align:center;">${i + 1}</td><td style="${dbxTd}font-weight:600;color:#0f766e;cursor:pointer;" onclick="dsDetail(${studentsData.indexOf(s)})">${gEsc(s[c.nama] || '-')}</td><td style="${dbxTd}">${gEsc(s[c.nisn] || '-')}</td><td style="${dbxTd}">${gEsc(s[alamat] || '-')}</td>
+          <td style="${dbxTd}">${wa ? `<a href="https://wa.me/${wa}" target="_blank" style="color:#16a34a;font-weight:600;text-decoration:none;">${gEsc(hp)}</a>` : '-'}</td></tr>`;
+      });
+      dbxBuka(`${kolom} ${nama}`, `<p style="color:#475569;margin-bottom:12px;">Wali kelas: <b>${gEsc(g)}</b></p>` +
+        dbxRingkas([['Jumlah Siswa', siswa.length, '#f0fdf4'], ['Laki-laki', lk, '#eff6ff'], ['Perempuan', siswa.length - lk, '#fdf2f8']]) +
+        dbxTabel(['No', 'Nama', 'NISN', 'Alamat', 'Nomor HP'], rows), () => dbxRombel(jenis));
+    };
+    // 8. Total siswa per kelas & rombel
+    window.dbxTotal = function() {
+      if (!studentsData.length) return;
+      const d = dbKolom();
+      const isi = (...l) => l.find(k => k && studentsData.some(s => (s[k] || '').trim())) || '';
+      const kKelas = isi(d.kelasSmp), kRombel = isi(d.rombelSmp) || kKelas;
+      const tot = studentsData.length, lk = studentsData.filter(dbxLaki).length;
+      const hitung = arr => { const l = arr.filter(dbxLaki).length; return [arr.length, l, arr.length - l]; };
+      let html = dbxRingkas([['Total Siswa', tot, '#f0fdf4'], ['Laki-laki', lk, '#eff6ff'], ['Perempuan', tot - lk, '#fdf2f8']]);
+      if (kKelas) {
+        const rows = grupRombel(kKelas).map(([nm, arr], i) => { const [t, l, p] = hitung(arr); return `<tr><td style="${dbxTd}text-align:center;">${i + 1}</td><td style="${dbxTd}font-weight:600;">${gEsc(kKelas)} ${gEsc(nm)}</td><td style="${dbxTd}text-align:center;">${l}</td><td style="${dbxTd}text-align:center;">${p}</td><td style="${dbxTd}text-align:center;font-weight:700;">${t}</td></tr>`; });
+        html += `<h4 style="font-weight:700;margin:6px 0 8px;color:#1f2937;">Rekap per ${gEsc(kKelas)}</h4>` + dbxTabel(['No', 'Kelas', 'L', 'P', 'Total'], rows);
+      }
+      if (kRombel && kRombel !== kKelas || !kKelas) {
+        const rows = grupRombel(kRombel).map(([nm, arr], i) => { const [t, l, p] = hitung(arr); const w = [...new Set(arr.map(s => (s[d.waliSmp] || '').trim()).filter(Boolean))].join(', ') || '-'; return `<tr><td style="${dbxTd}text-align:center;">${i + 1}</td><td style="${dbxTd}font-weight:600;">${gEsc(nm)}</td><td style="${dbxTd}">${gEsc(w)}</td><td style="${dbxTd}text-align:center;">${l}</td><td style="${dbxTd}text-align:center;">${p}</td><td style="${dbxTd}text-align:center;font-weight:700;">${t}</td></tr>`; });
+        html += `<h4 style="font-weight:700;margin:18px 0 8px;color:#1f2937;">Rekap per ${gEsc(kRombel || 'Rombel')}</h4>` + dbxTabel(['No', 'Rombel', 'Wali Kelas', 'L', 'P', 'Total'], rows);
+      }
+      dbxBuka('Rekap Total Siswa', html);
+    };
+    // 9. Guru & pegawai
+    window.dbxGuru = function() {
+      const tot = guruData.length;
+      const jk = g => gVal(g, /jenis kelamin/i);
+      const pr = guruData.filter(g => /^p/i.test(jk(g))).length;
+      const map = new Map();
+      guruData.forEach(g => { const j = gJab(g) || 'Belum diisi'; if (!map.has(j)) map.set(j, []); map.get(j).push(g); });
+      const rows = [...map.entries()].sort((a, b) => b[1].length - a[1].length).map(([j, arr], i) => {
+        const p = arr.filter(g => /^p/i.test(jk(g))).length;
+        return `<tr><td style="${dbxTd}text-align:center;">${i + 1}</td><td style="${dbxTd}font-weight:600;">${gEsc(j)}</td><td style="${dbxTd}text-align:center;">${arr.length - p}</td><td style="${dbxTd}text-align:center;">${p}</td><td style="${dbxTd}text-align:center;font-weight:700;">${arr.length}</td></tr>`;
+      });
+      dbxBuka('Rekap Guru & Pegawai', dbxRingkas([['Total Guru & Pegawai', tot, '#f0fdfa'], ['Laki-laki', tot - pr, '#eff6ff'], ['Perempuan', pr, '#fdf2f8']]) +
+        '<h4 style="font-weight:700;margin:6px 0 8px;color:#1f2937;">Rekap per Jabatan</h4>' + dbxTabel(['No', 'Jabatan', 'L', 'P', 'Total'], rows) +
+        '<p style="margin-top:12px;"><button class="btn btn-primary" onclick="showPage(\'guru\')">Lihat Data Guru Lengkap</button></p>');
+    };
 
     /* ---- Pencarian siswa di dashboard ---- */
     window.dbSearch = function() {
